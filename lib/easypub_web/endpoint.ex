@@ -41,6 +41,7 @@ defmodule EasypubWeb.Endpoint do
     signing_salt: "yEW6jjXz"
   )
 
+  plug(CORSPlug)
   plug(EasypubWeb.Router)
 
   @doc """
