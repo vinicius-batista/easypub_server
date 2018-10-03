@@ -13,7 +13,7 @@ config :logger, level: :warn
 config :easypub, Easypub.Repo,
   adapter: Ecto.Adapters.Postgres,
   username: "postgres",
-  password: "postgres",
-  database: "easypub_test",
-  hostname: "localhost",
+  password: "",
+  database: "easypub_dev",
+  hostname: "db",
   pool: Ecto.Adapters.SQL.Sandbox
