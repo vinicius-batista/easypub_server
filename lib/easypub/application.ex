@@ -12,6 +12,7 @@ defmodule Easypub.Application do
       supervisor(Easypub.Repo, []),
       # Start the endpoint when the application starts
       supervisor(EasypubWeb.Endpoint, []),
+      supervisor(Absinthe.Subscription, [EasypubWeb.Endpoint])
       # Start your own worker by calling: Easypub.Worker.start_link(arg1, arg2, arg3)
       # worker(Easypub.Worker, [arg1, arg2, arg3]),
     ]
