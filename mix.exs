@@ -44,7 +44,8 @@ defmodule Easypub.Mixfile do
       {:absinthe_phoenix, "~> 1.4"},
       {:absinthe_plug, "~> 1.4"},
       {:dataloader, "~> 1.0.0"},
-      {:cors_plug, "~> 1.5"}
+      {:cors_plug, "~> 1.5"},
+      {:bcrypt_elixir, "~> 1.0"}
     ]
   end
 

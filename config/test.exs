@@ -17,3 +17,5 @@ config :easypub, Easypub.Repo,
   database: "easypub_dev",
   hostname: "db",
   pool: Ecto.Adapters.SQL.Sandbox
+
+config :bcrypt_elixir, :log_rounds, 4
