@@ -6,6 +6,7 @@ defmodule EasypubWeb.Router do
 
   pipeline :graphql do
     plug(:accepts, ["json"])
+    plug(EasypubWeb.Context)
   end
 
   scope "/" do

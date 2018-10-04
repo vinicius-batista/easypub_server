@@ -14,7 +14,7 @@ config :easypub, Easypub.Repo,
   adapter: Ecto.Adapters.Postgres,
   username: "postgres",
   password: "",
-  database: "easypub_dev",
+  database: "easypub_test",
   hostname: "db",
   pool: Ecto.Adapters.SQL.Sandbox
 

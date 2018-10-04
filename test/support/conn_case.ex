@@ -20,19 +20,20 @@ defmodule EasypubWeb.ConnCase do
       # Import conveniences for testing with connections
       use Phoenix.ConnTest
       import EasypubWeb.Router.Helpers
-
+      import EasypubWeb.GraphqlHelper
+      import EasypubWeb.AuthenticationHelper
       # The default endpoint for testing
       @endpoint EasypubWeb.Endpoint
     end
   end
 
-
   setup tags do
     :ok = Ecto.Adapters.SQL.Sandbox.checkout(Easypub.Repo)
+
     unless tags[:async] do
       Ecto.Adapters.SQL.Sandbox.mode(Easypub.Repo, {:shared, self()})
     end
+
     {:ok, conn: Phoenix.ConnTest.build_conn()}
   end
-
 end

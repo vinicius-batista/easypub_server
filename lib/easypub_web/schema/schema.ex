@@ -3,11 +3,16 @@ defmodule EasypubWeb.Schema do
   Graphql Schema
   """
   use Absinthe.Schema
+  alias EasypubWeb.Schema.AccountsTypes
+
   import_types(Absinthe.Type.Custom)
+  import_types(AccountsTypes)
 
   query do
-    field :user, :string do
-      resolve(fn _, _, _ -> {:ok, "ola"} end)
-    end
+    import_fields(:accounts_queries)
+  end
+
+  mutation do
+    import_fields(:accounts_mutations)
   end
 end
