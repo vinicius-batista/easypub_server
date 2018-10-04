@@ -7,7 +7,7 @@ defmodule EasypubWeb.Schema do
 
   query do
     field :user, :string do
-      resolve(fn _, _, _ -> "ola" end)
+      resolve(fn _, _, _ -> {:ok, "ola"} end)
     end
   end
 end

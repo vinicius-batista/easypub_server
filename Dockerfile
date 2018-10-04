@@ -4,6 +4,14 @@ FROM elixir:1.7
 RUN apt-get update
 RUN apt-get install --yes build-essential inotify-tools postgresql-client
 
+ARG UNAME=vinicius
+ARG UID=1000
+ARG GID=1000
+RUN groupadd -g $GID $UNAME
+RUN useradd -m -u $UID -g $GID -s /bin/bash $UNAME
+
+USER vinicius
+
 # Install phoenix packages
 RUN mix local.hex --force
 RUN mix local.rebar --force
