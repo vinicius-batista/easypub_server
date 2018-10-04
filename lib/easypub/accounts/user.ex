@@ -32,6 +32,7 @@ defmodule Easypub.Accounts.User do
     |> unique_constraint(:email, name: :users_email_index)
     |> unique_constraint(:phone, name: :users_phone_index)
     |> validate_inclusion(:role, @roles, message: "should be one of: [#{Enum.join(@roles, " ")}]")
+    |> update_change(:email, &String.downcase/1)
   end
 
   defp hash_password(%Ecto.Changeset{valid?: true, changes: %{password: pass}} = changeset) do
