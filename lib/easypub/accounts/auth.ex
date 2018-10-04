@@ -15,7 +15,7 @@ defmodule Easypub.Accounts.Auth do
     |> check_password(password)
     |> case do
       true -> {:ok, user}
-      false -> {:error, "Incorrect password"}
+      false -> {:error, "Senha incorreta"}
       error -> error
     end
   end
@@ -72,7 +72,7 @@ defmodule Easypub.Accounts.Auth do
   @spec check_password(%Accounts.User{}, String.t()) :: boolean | {:error, String.t()}
   def check_password(user, password) do
     case user do
-      nil -> {:error, "Could not find user with email provided"}
+      nil -> {:error, "Não foi encontrado alguém com este email"}
       user -> Encryption.validate_password(password, user.password_hash)
     end
   end
