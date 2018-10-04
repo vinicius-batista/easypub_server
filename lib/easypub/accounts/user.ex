@@ -2,10 +2,10 @@ defmodule Easypub.Accounts.User do
   @moduledoc """
   Model for User
   """
-  use Ecto.Schema
+  use Easypub.Schema
   import Ecto.Changeset
 
-  alias Easypub.Accounts.{Encryption}
+  alias Easypub.Accounts.{Encryption, Token}
 
   schema "users" do
     field(:email, :string)
@@ -16,6 +16,7 @@ defmodule Easypub.Accounts.User do
     field(:role, :string, default: "user")
 
     timestamps()
+    has_many(:tokens, Token, on_delete: :delete_all)
   end
 
   @required_fields ~w(email name password_hash phone)a

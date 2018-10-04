@@ -44,3 +44,5 @@ config :easypub, Easypub.Repo,
   database: "easypub_dev",
   hostname: "db",
   pool_size: 10
+
+config :easypub, :generators, binary_id: true
