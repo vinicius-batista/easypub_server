@@ -45,4 +45,9 @@ config :easypub, Easypub.Repo,
   hostname: "db",
   pool_size: 10
 
-config :easypub, :generators, binary_id: true
+# Configure Guardian
+config :easypub, Easypub.Guardian,
+  issuer: "easypub",
+  secret_key: "0L4OeGAqx+U899w+K9qaGHskHQVC7Xu/ndOFlsnGgRU91kmvxbqeLr4VPXe775g5",
+  verify_issuer: true,
+  ttl: {1, :week}

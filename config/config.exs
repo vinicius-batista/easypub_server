@@ -14,14 +14,16 @@ config :easypub, EasypubWeb.Endpoint,
   url: [host: "localhost"],
   secret_key_base: "/YwBx1TgTQVALlZulMa7HooocD3y/uN0w2dxjfg0Ba+Lpuk0DP8c90uvViUTQR8R",
   render_errors: [view: EasypubWeb.ErrorView, accepts: ~w(json)],
-  pubsub: [name: Easypub.PubSub,
-           adapter: Phoenix.PubSub.PG2]
+  pubsub: [name: Easypub.PubSub, adapter: Phoenix.PubSub.PG2]
 
 # Configures Elixir's Logger
 config :logger, :console,
   format: "$time $metadata[$level] $message\n",
   metadata: [:user_id]
 
+# Configures Phoenix Generators
+config :easypub, :generators, binary_id: true
+
 # Import environment specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.
-import_config "#{Mix.env}.exs"
+import_config "#{Mix.env()}.exs"
