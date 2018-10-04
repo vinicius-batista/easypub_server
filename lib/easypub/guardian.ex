@@ -1,4 +1,4 @@
-defmodule EasypubWeb.Guardian do
+defmodule Easypub.Guardian do
   @moduledoc """
   Module for setup Guardian
   """
