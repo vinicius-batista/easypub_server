@@ -1,4 +1,7 @@
 defmodule Easypub.Repo.Migrations.CreateTokens do
+  @moduledoc """
+  Migration for create tokens
+  """
   use Ecto.Migration
 
   def change do

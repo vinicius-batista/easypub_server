@@ -1,4 +1,7 @@
 defmodule Easypub.Application do
+  @moduledoc """
+  Application with all supervisors
+  """
   use Application
 
   # See https://hexdocs.pm/elixir/Application.html
