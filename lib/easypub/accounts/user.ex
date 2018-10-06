@@ -23,7 +23,7 @@ defmodule Easypub.Accounts.User do
 
   @required_fields ~w(email name password_hash phone)a
   @all_fields ~w(password role)a ++ @required_fields
-  @roles ~w(user admin bar_owner)a
+  @roles ~w(user admin bar_owner)
 
   @doc false
   def changeset(user, attrs) do

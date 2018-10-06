@@ -27,6 +27,7 @@ defmodule EasypubWeb.Schema.MenusTypes do
     field(:waiting_time, :string)
     field(:inserted_at, :string)
     field(:updated_at, :string)
+    field(:category_id, :string)
     field(:menu_category, :menu_category, resolve: dataloader(MenuCategory))
   end
 
@@ -36,11 +37,28 @@ defmodule EasypubWeb.Schema.MenusTypes do
     field(:bar_id, non_null(:string))
   end
 
+  @desc "Input object for create_menu_item"
+  input_object :create_menu_item_input do
+    field(:name, non_null(:string))
+    field(:category_id, non_null(:string))
+    field(:photo, :string)
+    field(:price, non_null(:float))
+    field(:description, :string)
+    field(:waiting_time, :string)
+  end
+
   object :menus_mutations do
     field(:create_menu_category, :menu_category) do
       arg(:input, non_null(:create_menu_category_input))
       middleware(Authentication)
       resolve(&MenuResolvers.create_menu_category/3)
+      middleware(HandleErrors)
+    end
+
+    field(:create_menu_item, :menu_item) do
+      arg(:input, non_null(:create_menu_item_input))
+      middleware(Authentication)
+      resolve(&MenuResolvers.create_menu_item/3)
       middleware(HandleErrors)
     end
   end

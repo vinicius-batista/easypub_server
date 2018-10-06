@@ -5,8 +5,20 @@ defmodule EasypubWeb.Resolvers.MenuResolvers do
 
   alias Easypub.Bars
 
-  def create_menu_category(_, %{input: input}, _) do
-    {:ok, input}
+  def create_menu_category(_, %{input: input}, %{current_user: current_user}) do
+    bar = Bars.get_bar(input.bar_id)
+
+    with :ok <- Bodyguard.permit(Bars, :create_menu_category, current_user, bar) do
+      Bars.create_menu_category(input)
+    end
+  end
+
+  def create_menu_item(_, %{input: input}, %{current_user: current_user}) do
+    menu_category = Bars.get_menu_category_with_bar(input.bar_id)
+
+    with :ok <- Bodyguard.permit(Bars, :create_menu_item, current_user, menu_category.bar) do
+      Bars.create_menu_item(input)
+    end
   end
 
   def get_menu_categories(_, %{bar_id: bar_id}, _) do

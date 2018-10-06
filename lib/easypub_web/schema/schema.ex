@@ -18,6 +18,7 @@ defmodule EasypubWeb.Schema do
 
   mutation do
     import_fields(:accounts_mutations)
-    import_field(:menu_mutations)
+    import_fields(:bars_mutations)
+    import_fields(:menus_mutations)
   end
 end

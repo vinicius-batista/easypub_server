@@ -8,6 +8,8 @@ defmodule Easypub.Bars do
 
   alias Easypub.Bars.Bar
 
+  defdelegate authorize(action, user, params), to: __MODULE__.Policy
+
   @doc """
   Returns the list of bars.
 
@@ -142,6 +144,10 @@ defmodule Easypub.Bars do
 
   """
   def get_menu_category!(id), do: Repo.get!(MenuCategory, id)
+
+  def get_menu_category_with_bar(id) do
+    Repo.get(MenuCategory, id, preload: [:bar])
+  end
 
   @doc """
   Creates a menu_category.
