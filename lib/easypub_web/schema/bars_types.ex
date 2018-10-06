@@ -6,7 +6,7 @@ defmodule EasypubWeb.Schema.BarsTypes do
   import Absinthe.Resolution.Helpers, only: [dataloader: 1]
 
   alias EasypubWeb.Resolvers.BarsResolvers
-  alias EasypubWeb.Middlewares.{Authentication}
+  alias EasypubWeb.Middlewares.{Authentication, HandleErrors}
   alias Easypub.Bars.MenuCategory
 
   @desc "Bars object"

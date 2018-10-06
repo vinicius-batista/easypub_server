@@ -8,18 +8,18 @@ defmodule Easypub.Bars.Policy do
   alias Easypub.Bars.{Bar}
 
   # Admin users can do anything
-  def authorize(_, %User{role: :admin}, _), do: true
+  def authorize(_, %User{role: "admin"}, _), do: true
 
-  def authorize(:create_bar, %User{role: :bar_owner}, _), do: true
-  def authorize(:update_bar, %User{role: :bar_owner, id: user_id}, %{user_id: user_id}), do: true
-  def authorize(:delete_bar, %User{role: :bar_owner, id: user_id}, %{user_id: user_id}), do: true
+  def authorize(:create_bar, %User{role: "bar_owner"}, _), do: true
+  def authorize(:update_bar, %User{role: "bar_owner", id: user_id}, %{user_id: user_id}), do: true
+  def authorize(:delete_bar, %User{role: "bar_owner", id: user_id}, %{user_id: user_id}), do: true
 
-  def authorize(:create_menu_category, %User{role: :bar_owner, id: user_id}, %Bar{
+  def authorize(:create_menu_category, %User{role: "bar_owner", id: user_id}, %Bar{
         user_id: user_id
       }),
       do: true
 
-  def authorize(:create_menu_item, %User{role: :bar_owner, id: user_id}, %Bar{user_id: user_id}),
+  def authorize(:create_menu_item, %User{role: "bar_owner", id: user_id}, %Bar{user_id: user_id}),
     do: true
 
   # TODO: UPDATE AND DELETE

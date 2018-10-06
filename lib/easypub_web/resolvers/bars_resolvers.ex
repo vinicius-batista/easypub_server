@@ -4,7 +4,7 @@ defmodule EasypubWeb.Resolvers.BarsResolvers do
   """
   alias Easypub.Bars
 
-  def create_bar(_, %{input: input}, %{current_user: current_user}) do
+  def create_bar(_, %{input: input}, %{context: %{current_user: current_user}}) do
     attrs =
       %{user_id: current_user.id}
       |> Enum.into(input)
@@ -12,7 +12,7 @@ defmodule EasypubWeb.Resolvers.BarsResolvers do
     with :ok <- Bodyguard.permit(Bars, :create_bar, current_user), do: Bars.create_bar(attrs)
   end
 
-  def update_bar(_, %{input: input}, %{current_user: current_user}) do
+  def update_bar(_, %{input: input}, %{context: %{current_user: current_user}}) do
     bar = Bars.get_bar(input.id)
 
     with :ok <- Bodyguard.permit(Bars, :update_bar, current_user, bar) do
@@ -21,7 +21,7 @@ defmodule EasypubWeb.Resolvers.BarsResolvers do
     end
   end
 
-  def delete_bar(_, %{id: id}, %{current_user: current_user}) do
+  def delete_bar(_, %{id: id}, %{context: %{current_user: current_user}}) do
     bar = Bars.get_bar(id)
 
     with :ok <- Bodyguard.permit(Bars, :update_bar, current_user, bar) do
