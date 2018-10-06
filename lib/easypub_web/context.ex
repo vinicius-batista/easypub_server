@@ -7,6 +7,7 @@ defmodule EasypubWeb.Context do
   import Plug.Conn
   alias Absinthe.Plug
   alias Easypub.Accounts.AuthToken
+  alias EasypubWeb.Helpers.BuildLoader
 
   def init(opts), do: opts
 
@@ -22,5 +23,6 @@ defmodule EasypubWeb.Context do
       ["Bearer " <> token] -> AuthToken.authorize(token)
       _ -> %{}
     end
+    |> BuildLoader.build()
   end
 end

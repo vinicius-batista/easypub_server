@@ -6,6 +6,7 @@ defmodule Easypub.Accounts.User do
   import Ecto.Changeset
 
   alias Easypub.Accounts.{Encryption, Token}
+  alias Easypub.Bars.Bar
 
   schema "users" do
     field(:email, :string)
@@ -17,11 +18,12 @@ defmodule Easypub.Accounts.User do
 
     timestamps()
     has_many(:tokens, Token, on_delete: :delete_all)
+    has_one(:bar, Bar, on_delete: :delete_all)
   end
 
   @required_fields ~w(email name password_hash phone)a
   @all_fields ~w(password role)a ++ @required_fields
-  @roles ~w(user admin)a
+  @roles ~w(user admin bar_owner)a
 
   @doc false
   def changeset(user, attrs) do
