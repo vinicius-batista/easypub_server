@@ -10,6 +10,7 @@ defmodule Easypub.Bars.MenuItem do
     field(:price, :decimal)
     field(:description, :string)
     field(:waiting_time, :string)
+    field(:people_count, :integer)
 
     timestamps()
     belongs_to(:menu_category, MenuCategory, foreign_key: :category_id)

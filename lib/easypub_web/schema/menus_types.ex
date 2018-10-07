@@ -28,6 +28,7 @@ defmodule EasypubWeb.Schema.MenusTypes do
     field(:inserted_at, :string)
     field(:updated_at, :string)
     field(:category_id, :string)
+    field(:people_count, :integer)
     field(:menu_category, :menu_category, resolve: dataloader(MenuCategory))
   end
 
