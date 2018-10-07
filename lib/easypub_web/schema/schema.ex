@@ -3,6 +3,9 @@ defmodule EasypubWeb.Schema do
   Graphql Schema
   """
   use Absinthe.Schema
+
+  alias Absinthe.Middleware.Dataloader
+  alias Absinthe.Plugin
   alias EasypubWeb.Schema.{AccountsTypes, BarsTypes, MenusTypes}
 
   import_types(Absinthe.Type.Custom)
@@ -20,5 +23,9 @@ defmodule EasypubWeb.Schema do
     import_fields(:accounts_mutations)
     import_fields(:bars_mutations)
     import_fields(:menus_mutations)
+  end
+
+  def plugins do
+    [Dataloader] ++ Plugin.defaults()
   end
 end
