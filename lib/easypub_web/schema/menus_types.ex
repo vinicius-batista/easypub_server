@@ -75,5 +75,11 @@ defmodule EasypubWeb.Schema.MenusTypes do
       middlewarre(Authentication)
       resolve(&MenuResolvers.get_menu_items/3)
     end
+
+    field(:menu_item, :menu_item) do
+      arg(:id, non_null(:string))
+      middlewarre(Authentication)
+      resolve(&MenuResolvers.get_menu_item/3)
+    end
   end
 end

@@ -203,9 +203,9 @@ defmodule Easypub.BarsTest do
       assert Bars.list_menu_items(menu_item.category_id) == [menu_item]
     end
 
-    test "get_menu_item!/1 returns the menu_item with given id" do
+    test "get_menu_item/1 returns the menu_item with given id" do
       menu_item = menu_item_fixture()
-      assert Bars.get_menu_item!(menu_item.id) == menu_item
+      assert Bars.get_menu_item(menu_item.id) == menu_item
     end
 
     test "create_menu_item/1 with valid data creates a menu_item" do
@@ -243,13 +243,13 @@ defmodule Easypub.BarsTest do
     test "update_menu_item/2 with invalid data returns error changeset" do
       menu_item = menu_item_fixture()
       assert {:error, %Ecto.Changeset{}} = Bars.update_menu_item(menu_item, @invalid_attrs)
-      assert menu_item == Bars.get_menu_item!(menu_item.id)
+      assert menu_item == Bars.get_menu_item(menu_item.id)
     end
 
     test "delete_menu_item/1 deletes the menu_item" do
       menu_item = menu_item_fixture()
       assert {:ok, %MenuItem{}} = Bars.delete_menu_item(menu_item)
-      assert_raise Ecto.NoResultsError, fn -> Bars.get_menu_item!(menu_item.id) end
+      assert nil == Bars.get_menu_item(menu_item.id)
     end
 
     test "change_menu_item/1 returns a menu_item changeset" do

@@ -30,4 +30,9 @@ defmodule EasypubWeb.Resolvers.MenuResolvers do
     menu_items = Bars.list_menu_items(category_id)
     {:ok, menu_items}
   end
+
+  def get_menu_item(_, %{id: id}, _) do
+    menu_item = Bars.get_menu_item(id)
+    {:ok, menu_item}
+  end
 end

@@ -247,7 +247,7 @@ defmodule Easypub.Bars do
       ** (Ecto.NoResultsError)
 
   """
-  def get_menu_item!(id), do: Repo.get!(MenuItem, id)
+  def get_menu_item(id), do: Repo.get(MenuItem, id)
 
   @doc """
   Creates a menu_item.
