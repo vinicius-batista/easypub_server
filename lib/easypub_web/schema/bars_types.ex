@@ -68,7 +68,7 @@ defmodule EasypubWeb.Schema.BarsTypes do
     end
 
     field :bar, non_null(:bar) do
-      arg(:id, non_null(:integer))
+      arg(:id, non_null(:string))
       middleware(Authentication)
       resolve(&BarsResolvers.get_bar/3)
     end
