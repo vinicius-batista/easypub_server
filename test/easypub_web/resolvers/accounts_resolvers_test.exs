@@ -145,4 +145,53 @@ defmodule EasypubWeb.AccountsResolverTest do
     assert response["name"] == user.name
     assert response["phone"] == user.phone
   end
+
+  test "update_profile returns modified user", %{conn: conn, user: user} do
+    query = "
+      mutation ($input: UpdateProfileInput!) {
+        updateProfile(input:$input) {
+          email
+        }
+      }
+    "
+
+    variables = %{
+      input: %{
+        email: "some-updated@email.com"
+      }
+    }
+
+    response =
+      conn
+      |> authenticate_user(user)
+      |> graphql_query(query: query, variables: variables)
+      |> get_query_data("updateProfile")
+
+    assert response["email"] == "some-updated@email.com"
+  end
+
+  test "change_password returns user modified", %{conn: conn, user: user} do
+    query = "
+      mutation ($input:ChangePasswordInput!) {
+        changePassword(input:$input) {
+          id
+        }
+      }
+    "
+
+    variables = %{
+      input: %{
+        "newPassword" => "test123",
+        "currentPassword" => "test"
+      }
+    }
+
+    response =
+      conn
+      |> authenticate_user(user)
+      |> graphql_query(query: query, variables: variables)
+      |> get_query_data("changePassword")
+
+    assert response["id"] == to_string(user.id)
+  end
 end

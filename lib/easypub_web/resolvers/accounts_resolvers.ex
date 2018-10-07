@@ -30,4 +30,17 @@ defmodule EasypubWeb.Resolvers.AccountsResolvers do
   end
 
   def profile(_, _, %{context: %{current_user: current_user}}), do: {:ok, current_user}
+
+  def update_profile(_, %{input: input}, %{context: %{current_user: current_user}}) do
+    Accounts.update_user(current_user, input)
+  end
+
+  def change_password(_, %{input: input}, %{context: %{current_user: current_user}}) do
+    current_user
+    |> Auth.check_password(input.current_password)
+    |> case do
+      true -> Accounts.update_user(current_user, %{password: input.new_password})
+      false -> {:error, "Senha atual está incorreta"}
+    end
+  end
 end

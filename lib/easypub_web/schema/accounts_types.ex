@@ -37,6 +37,19 @@ defmodule EasypubWeb.Schema.AccountsTypes do
     field(:password, non_null(:string))
   end
 
+  @desc "Input object for update_profile"
+  input_object :update_profile_input do
+    field(:email, :string)
+    field(:name, :string)
+    field(:phone, :string)
+  end
+
+  @desc "Input object for change_password"
+  input_object :change_password_input do
+    field(:current_password, non_null(:string))
+    field(:new_password, non_null(:string))
+  end
+
   @desc "Accounts mutations"
   object :accounts_mutations do
     field :register_user, :auth_tokens do
@@ -55,6 +68,20 @@ defmodule EasypubWeb.Schema.AccountsTypes do
       arg(:refresh_token, non_null(:string))
       middleware(Authentication)
       resolve(&AccountsResolvers.logout/3)
+      middleware(HandleErrors)
+    end
+
+    field :update_profile, :user do
+      arg(:input, non_null(:update_profile_input))
+      middleware(Authentication)
+      resolve(&AccountsResolvers.update_profile/3)
+      middleware(HandleErrors)
+    end
+
+    field :change_password, :user do
+      arg(:input, non_null(:change_password_input))
+      middleware(Authentication)
+      resolve(&AccountsResolvers.change_password/3)
       middleware(HandleErrors)
     end
   end
