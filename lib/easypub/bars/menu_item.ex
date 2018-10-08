@@ -17,7 +17,7 @@ defmodule Easypub.Bars.MenuItem do
   end
 
   @required_fields ~w(name price description category_id)a
-  @all_fields ~w(photo waiting_time)a ++ @required_fields
+  @all_fields ~w(photo waiting_time people_count)a ++ @required_fields
 
   @doc false
   def changeset(menu_item, attrs) do
