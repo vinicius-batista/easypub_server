@@ -46,6 +46,7 @@ defmodule EasypubWeb.Schema.MenusTypes do
     field(:price, non_null(:float))
     field(:description, non_null(:string))
     field(:waiting_time, :string)
+    field(:people_count, :integer)
   end
 
   object :menus_mutations do
