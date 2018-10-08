@@ -16,5 +16,6 @@ defmodule Easypub.Repo.Migrations.CreateTokens do
     end
 
     create(unique_index(:tokens, [:refresh_token]))
+    create(index(:tokens, [:user_id]))
   end
 end
