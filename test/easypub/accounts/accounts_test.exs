@@ -10,13 +10,13 @@ defmodule Easypub.AccountsTest do
     alias Easypub.Accounts.User
 
     @valid_attrs %{
-      email: "some email",
+      email: "contato@easypub.com.br",
       name: "some name",
       password: "some password",
       phone: "12312312313"
     }
     @update_attrs %{
-      email: "some updated email",
+      email: "contato@easypub.com.br",
       name: "some updated name",
       password: "some updated password",
       phone: "12313"
@@ -48,7 +48,7 @@ defmodule Easypub.AccountsTest do
 
     test "create_user/1 with valid data creates a user" do
       assert {:ok, %User{} = user} = Accounts.create_user(@valid_attrs)
-      assert user.email == "some email"
+      assert user.email == "contato@easypub.com.br"
       assert user.name == "some name"
       assert user.role == "user"
     end
@@ -61,7 +61,7 @@ defmodule Easypub.AccountsTest do
       user = user_fixture()
       assert {:ok, user} = Accounts.update_user(user, @update_attrs)
       assert %User{} = user
-      assert user.email == "some updated email"
+      assert user.email == "contato@easypub.com.br"
       assert user.name == "some updated name"
       assert user.role == "user"
     end

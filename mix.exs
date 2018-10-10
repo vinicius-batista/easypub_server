@@ -20,7 +20,7 @@ defmodule Easypub.Mixfile do
   def application do
     [
       mod: {Easypub.Application, []},
-      extra_applications: [:logger, :runtime_tools]
+      extra_applications: [:logger, :runtime_tools, :email_checker]
     ]
   end
 
@@ -47,7 +47,8 @@ defmodule Easypub.Mixfile do
       {:cors_plug, "~> 1.5"},
       {:bcrypt_elixir, "~> 1.0"},
       {:guardian, "~> 1.0"},
-      {:bodyguard, "~> 2.2"}
+      {:bodyguard, "~> 2.2"},
+      {:email_checker, "~> 0.1.2"}
     ]
   end
 

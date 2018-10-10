@@ -31,10 +31,11 @@ defmodule Easypub.Accounts.User do
     |> cast(attrs, @all_fields)
     |> hash_password()
     |> validate_required(@required_fields)
+    |> update_change(:email, &String.downcase/1)
     |> unique_constraint(:email, name: :users_email_index)
     |> unique_constraint(:phone, name: :users_phone_index)
     |> validate_inclusion(:role, @roles, message: "should be one of: [#{Enum.join(@roles, " ")}]")
-    |> update_change(:email, &String.downcase/1)
+    |> validate_email()
   end
 
   defp hash_password(%Ecto.Changeset{valid?: true, changes: %{password: pass}} = changeset) do
@@ -43,4 +44,19 @@ defmodule Easypub.Accounts.User do
   end
 
   defp hash_password(changeset), do: changeset
+
+  defp validate_email(changeset) do
+    changeset
+    |> get_field(:email)
+    |> check_email(changeset)
+  end
+
+  defp check_email(nil, changeset), do: changeset
+
+  defp check_email(email, changeset) do
+    case EmailChecker.valid?(email) do
+      true -> changeset
+      false -> add_error(changeset, :email, "has invalid format", validation: :format)
+    end
+  end
 end
