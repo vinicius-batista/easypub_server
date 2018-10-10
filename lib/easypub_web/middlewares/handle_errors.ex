@@ -13,7 +13,10 @@ defmodule EasypubWeb.Middlewares.HandleErrors do
   defp handle_error(%Ecto.Changeset{} = changeset) do
     changeset
     |> Changeset.traverse_errors(fn {err, _opts} -> err end)
-    |> Enum.map(fn {k, v} -> "#{k} #{v}" end)
+    |> Enum.map(fn {k, v} ->
+      translated = Gettext.dgettext(EasypubWeb.Gettext, "errors", List.first(v))
+      "#{k} #{translated}"
+    end)
   end
 
   defp handle_error(error), do: [error]

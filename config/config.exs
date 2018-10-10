@@ -24,6 +24,9 @@ config :logger, :console,
 # Configures Phoenix Generators
 config :easypub, :generators, binary_id: true
 
+# Configures gettext
+config :gettext, :default_locale, "pt_BR"
+
 # Import environment specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.
 import_config "#{Mix.env()}.exs"
