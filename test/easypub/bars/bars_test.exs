@@ -257,4 +257,88 @@ defmodule Easypub.BarsTest do
       assert %Ecto.Changeset{} = Bars.change_menu_item(menu_item)
     end
   end
+
+  describe "tables" do
+    alias Easypub.Bars.Table
+
+    @valid_attrs %{number: 42}
+    @update_attrs %{number: 43}
+    @invalid_attrs %{number: nil}
+
+    def table_fixture(attrs \\ %{}) do
+      bar =
+        %{
+          address: "some address",
+          avatar: "some avatar",
+          name: "some name",
+          status: "some status"
+        }
+        |> bar_fixture()
+
+      {:ok, table} =
+        attrs
+        |> Enum.into(%{bar_id: bar.id})
+        |> Enum.into(@valid_attrs)
+        |> Bars.create_table()
+
+      table
+    end
+
+    test "list_tables/0 returns all tables" do
+      table = table_fixture()
+      assert Bars.list_tables() == [table]
+    end
+
+    test "get_table!/1 returns the table with given id" do
+      table = table_fixture()
+      assert Bars.get_table!(table.id) == table
+    end
+
+    test "create_table/1 with valid data creates a table" do
+      bar =
+        %{
+          address: "some address",
+          avatar: "some avatar",
+          name: "some name",
+          status: "some status"
+        }
+        |> bar_fixture()
+
+      attrs =
+        @valid_attrs
+        |> Enum.into(%{bar_id: bar.id})
+
+      assert {:ok, %Table{} = table} = Bars.create_table(attrs)
+      assert table.number == 42
+      assert table.bar_id == bar.id
+    end
+
+    test "create_table/1 with invalid data returns error changeset" do
+      assert {:error, %Ecto.Changeset{}} = Bars.create_table(@invalid_attrs)
+    end
+
+    test "update_table/2 with valid data updates the table" do
+      table = table_fixture()
+      assert {:ok, table} = Bars.update_table(table, @update_attrs)
+      assert %Table{} = table
+      assert table.number == 43
+    end
+
+    test "update_table/2 with invalid data returns error changeset" do
+      table = table_fixture()
+      assert {:error, %Ecto.Changeset{}} = Bars.update_table(table, @invalid_attrs)
+      assert table == Bars.get_table!(table.id)
+    end
+
+    test "delete_table/1 deletes the table" do
+      table = table_fixture()
+      assert {:ok, %Table{}} = Bars.delete_table(table)
+      assert_raise Ecto.NoResultsError, fn -> Bars.get_table!(table.id) end
+    end
+
+    test "change_table/1 returns a table changeset" do
+      table = table_fixture()
+      assert %Ecto.Changeset{} = Bars.change_table(table)
+    end
+  end
 end

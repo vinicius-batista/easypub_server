@@ -5,7 +5,7 @@ defmodule Easypub.Bars.Bar do
   use Easypub.Schema
   import Ecto.Changeset
   alias Easypub.Accounts.User
-  alias Easypub.Bars.MenuCategory
+  alias Easypub.Bars.{MenuCategory, Table}
 
   schema "bars" do
     field(:address, :string)
@@ -16,6 +16,7 @@ defmodule Easypub.Bars.Bar do
     timestamps()
     belongs_to(:user, User, foreign_key: :user_id)
     has_many(:menu_categories, MenuCategory, on_delete: :delete_all)
+    has_many(:tables, Table, on_delete: :delete_all)
   end
 
   @required_fields ~w(address name avatar)a
