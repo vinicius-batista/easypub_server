@@ -24,7 +24,7 @@ defmodule EasypubWeb.Resolvers.BarsResolvers do
   def delete_bar(_, %{id: id}, %{context: %{current_user: current_user}}) do
     bar = Bars.get_bar(id)
 
-    with :ok <- Bodyguard.permit(Bars, :update_bar, current_user, bar) do
+    with :ok <- Bodyguard.permit(Bars, :delete_bar, current_user, bar) do
       bar
       |> Bars.delete_bar()
     end
