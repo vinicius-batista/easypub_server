@@ -78,9 +78,9 @@ defmodule Easypub.OrdersTest do
   describe "order_items" do
     alias Easypub.Orders.OrderItem
 
-    @valid_attrs %{quantity: 42}
-    @update_attrs %{quantity: 43}
-    @invalid_attrs %{quantity: nil}
+    @valid_attrs %{quantity: 42, note: "some note"}
+    @update_attrs %{quantity: 43, note: "some updated note"}
+    @invalid_attrs %{quantity: nil, note: nil}
 
     def order_item_fixture(attrs \\ %{}) do
       item = BarsTest.menu_item_fixture()
@@ -115,11 +115,13 @@ defmodule Easypub.OrdersTest do
       order = order_fixture()
 
       assert {:ok, %OrderItem{} = order_item} =
-               %{item_id: item.id, quantity: 2, table_id: order.table_id}
+               %{item_id: item.id, table_id: order.table_id}
+               |> Enum.into(@valid_attrs)
                |> Orders.add_item_to_order(%{id: order.user_id})
 
       assert order_item.item_id == item.id
-      assert order_item.quantity == 2
+      assert order_item.quantity == 42
+      assert order_item.note == "some note"
     end
 
     test "list_order_items/0 returns all order_items" do
@@ -142,6 +144,7 @@ defmodule Easypub.OrdersTest do
 
       assert {:ok, %OrderItem{} = order_item} = Orders.create_order_item(attrs)
       assert order_item.quantity == 42
+      assert order_item.note == "some note"
     end
 
     test "create_order_item/1 with invalid data returns error changeset" do
@@ -153,6 +156,7 @@ defmodule Easypub.OrdersTest do
       assert {:ok, order_item} = Orders.update_order_item(order_item, @update_attrs)
       assert %OrderItem{} = order_item
       assert order_item.quantity == 43
+      assert order_item.note == "some updated note"
     end
 
     test "update_order_item/2 with invalid data returns error changeset" do

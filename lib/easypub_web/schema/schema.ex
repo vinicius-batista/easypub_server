@@ -6,12 +6,13 @@ defmodule EasypubWeb.Schema do
 
   alias Absinthe.Middleware.Dataloader
   alias Absinthe.Plugin
-  alias EasypubWeb.Schema.{AccountsTypes, BarsTypes, MenusTypes}
+  alias EasypubWeb.Schema.{AccountsTypes, BarsTypes, MenusTypes, OrdersTypes}
 
   import_types(Absinthe.Type.Custom)
   import_types(AccountsTypes)
   import_types(BarsTypes)
   import_types(MenusTypes)
+  import_types(OrdersTypes)
 
   query do
     import_fields(:accounts_queries)
@@ -23,6 +24,7 @@ defmodule EasypubWeb.Schema do
     import_fields(:accounts_mutations)
     import_fields(:bars_mutations)
     import_fields(:menus_mutations)
+    import_fields(:orders_mutations)
   end
 
   def plugins do

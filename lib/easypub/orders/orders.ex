@@ -9,7 +9,7 @@ defmodule Easypub.Orders do
   alias Easypub.Orders.Order
 
   def add_item_to_order(attrs, user) do
-    item_attrs = %{quantity: attrs.quantity, item_id: attrs.item_id}
+    item_attrs = Map.take(attrs, [:quantity, :item_id, :note])
 
     case get_order_by(table_id: attrs.table_id, status: "aberto", user_id: user.id) do
       nil ->
