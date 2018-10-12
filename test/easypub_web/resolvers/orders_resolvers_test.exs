@@ -4,7 +4,7 @@ defmodule EasypubWeb.OrdersResolversTest do
   """
 
   use EasypubWeb.ConnCase
-  alias Easypub.{Accounts, BarsTest, OrdersTest}
+  alias Easypub.{Accounts, BarsTest, OrdersTest, Orders}
 
   setup do
     {:ok, user} =
@@ -91,5 +91,80 @@ defmodule EasypubWeb.OrdersResolversTest do
 
     assert response["status"] == "fechado"
     assert response["id"] == order.id
+  end
+
+  test "current_order should return actual open order", %{
+    conn: conn,
+    user: user,
+    table: table,
+    menu_item: menu_item
+  } do
+    query = """
+    {
+      currentOrder{
+        id,
+        status,
+        items{
+          id,
+          quantity,
+          menuItem {
+            id,
+            name
+          }
+        }
+      }
+    }
+    """
+
+    order_item = %{
+      table_id: table.id,
+      quantity: 1,
+      item_id: menu_item.id,
+      note: "some note"
+    }
+
+    Orders.add_item_to_order(order_item, user)
+
+    response =
+      conn
+      |> authenticate_user(user)
+      |> graphql_query(query: query)
+      |> get_query_data("currentOrder")
+
+    assert response["status"] == "aberto"
+    assert is_list(response["items"])
+  end
+
+  test "orders should return list for orders", %{
+    conn: conn,
+    order: order
+  } do
+    query = """
+    {
+      orders{
+        id,
+        status,
+        items{
+          id,
+          quantity,
+          menuItem {
+            id,
+            name
+          }
+        }
+      }
+    }
+    """
+
+    user = Accounts.get_user!(order.user_id)
+
+    response =
+      conn
+      |> authenticate_user(user)
+      |> graphql_query(query: query)
+      |> get_query_data("orders")
+
+    assert is_list(response)
+    assert not Enum.empty?(response)
   end
 end

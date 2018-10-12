@@ -15,4 +15,14 @@ defmodule EasypubWeb.Resolvers.OrdersResolvers do
     with :ok <- Bodyguard.permit(Orders, :close_order, current_user, order),
          do: Orders.update_order(order, %{status: "fechado"})
   end
+
+  def current_order(_, _, %{context: %{current_user: current_user}}) do
+    order = Orders.get_order_by(user_id: current_user.id, status: "aberto")
+    {:ok, order}
+  end
+
+  def get_orders(_, %{cursor: cursor, limit: limit}, %{context: %{current_user: current_user}}) do
+    orders = Orders.list_orders(current_user.id, limit, cursor)
+    {:ok, orders}
+  end
 end

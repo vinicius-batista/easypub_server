@@ -18,6 +18,7 @@ defmodule EasypubWeb.Schema do
     import_fields(:accounts_queries)
     import_fields(:bars_queries)
     import_fields(:menus_queries)
+    import_fields(:orders_queries)
   end
 
   mutation do

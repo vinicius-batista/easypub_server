@@ -14,9 +14,10 @@ defmodule EasypubWeb.Schema.OrdersTypes do
   object :order do
     field(:id, :id)
     field(:status, :string)
+    field(:inserted_at, :string)
     field(:table, :table, resolve: dataloader(Table))
     field(:user, :user, resolve: dataloader(User))
-    field(:order_items, :order_item, resolve: dataloader(OrderItem))
+    field(:items, list_of(:order_item), resolve: dataloader(OrderItem))
   end
 
   @desc "Object for order_item type"
@@ -47,6 +48,20 @@ defmodule EasypubWeb.Schema.OrdersTypes do
       middleware(Authentication)
       resolve(&OrdersResolvers.close_order/3)
       middleware(HandleErrors)
+    end
+  end
+
+  object :orders_queries do
+    field :current_order, :order do
+      middleware(Authentication)
+      resolve(&OrdersResolvers.current_order/3)
+    end
+
+    field :orders, list_of(:order) do
+      arg(:limit, :integer, default_value: 20)
+      arg(:cursor, :string, default_value: DateTime.utc_now())
+      middleware(Authentication)
+      resolve(&OrdersResolvers.get_orders/3)
     end
   end
 end

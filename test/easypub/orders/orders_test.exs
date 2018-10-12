@@ -26,7 +26,7 @@ defmodule Easypub.OrdersTest do
 
     test "list_orders/0 returns all orders" do
       order = order_fixture()
-      assert Orders.list_orders() == [order]
+      assert Orders.list_orders(order.user_id) == [order]
     end
 
     test "get_order/1 returns the order with given id" do

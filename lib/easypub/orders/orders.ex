@@ -42,8 +42,14 @@ defmodule Easypub.Orders do
       [%Order{}, ...]
 
   """
-  def list_orders do
-    Repo.all(Order)
+  def list_orders(user_id, limit \\ 20, cursor \\ DateTime.utc_now()) do
+    from(
+      order in Order,
+      where: order.user_id == ^user_id and order.inserted_at < ^cursor,
+      order_by: [desc: order.inserted_at],
+      limit: ^limit
+    )
+    |> Repo.all()
   end
 
   @doc """
