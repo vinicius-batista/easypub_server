@@ -25,4 +25,9 @@ defmodule EasypubWeb.Resolvers.OrdersResolvers do
     orders = Orders.list_orders(current_user.id, limit, cursor)
     {:ok, orders}
   end
+
+  def get_order(_, %{id: id}, %{context: %{current_user: current_user}}) do
+    order = Orders.get_order(id)
+    with :ok <- Bodyguard.permit(Orders, :get_order, current_user, order), do: {:ok, order}
+  end
 end

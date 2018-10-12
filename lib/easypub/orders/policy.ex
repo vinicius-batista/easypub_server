@@ -10,6 +10,7 @@ defmodule Easypub.Orders.Policy do
   def authorize(_, %User{role: "admin"}, _), do: true
 
   def authorize(:close_order, %User{id: user_id}, %{user_id: user_id}), do: true
+  def authorize(:get_order, %User{id: user_id}, %{user_id: user_id}), do: true
 
   # Catch-all: deny everything else
   def authorize(_, _, _), do: false

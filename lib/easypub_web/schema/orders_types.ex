@@ -63,5 +63,11 @@ defmodule EasypubWeb.Schema.OrdersTypes do
       middleware(Authentication)
       resolve(&OrdersResolvers.get_orders/3)
     end
+
+    field :order, :order do
+      arg(:id, :string)
+      middleware(Authentication)
+      resolve(&OrdersResolvers.get_order/3)
+    end
   end
 end
