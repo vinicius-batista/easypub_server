@@ -4,7 +4,8 @@ defmodule EasypubWeb.Helpers.BuildLoader do
   """
   import Ecto.Query, warn: false
   alias Easypub.Accounts.User
-  alias Easypub.Bars.{Bar, MenuCategory, MenuItem}
+  alias Easypub.Bars.{Bar, MenuCategory, MenuItem, Table}
+  alias Easypub.Orders.{Order, OrderItem}
   alias Dataloader.Ecto
 
   def build(ctx) do
@@ -14,6 +15,9 @@ defmodule EasypubWeb.Helpers.BuildLoader do
       |> Dataloader.add_source(Bar, data())
       |> Dataloader.add_source(MenuCategory, data())
       |> Dataloader.add_source(MenuItem, data())
+      |> Dataloader.add_source(Table, data())
+      |> Dataloader.add_source(Order, data())
+      |> Dataloader.add_source(OrderItem, data())
 
     Map.put(ctx, :loader, loader)
   end

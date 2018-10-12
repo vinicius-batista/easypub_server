@@ -41,4 +41,11 @@ defmodule EasypubWeb.Resolvers.BarsResolvers do
       bar -> {:ok, bar}
     end
   end
+
+  def create_table(_, %{input: input}, %{context: %{current_user: current_user}}) do
+    bar = Bars.get_bar(input.bar_id)
+
+    with :ok <- Bodyguard.permit(Bars, :create_table, current_user, bar),
+         do: Bars.create_table(input)
+  end
 end

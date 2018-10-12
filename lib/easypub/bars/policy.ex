@@ -29,6 +29,9 @@ defmodule Easypub.Bars.Policy do
   # def authorize(:delete_menu_category, %User{id: user_id}, %{user_id: user_id}), do: true
   # def authorize(:delete_menu_item, %User{id: user_id}, %{user_id: user_id}), do: true
 
+  def authorize(:create_table, %User{role: "bar_owner", id: user_id}, %Bar{user_id: user_id}),
+    do: true
+
   # Catch-all: deny everything else
   def authorize(_, _, _), do: false
 end
