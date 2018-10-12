@@ -29,9 +29,9 @@ defmodule Easypub.OrdersTest do
       assert Orders.list_orders() == [order]
     end
 
-    test "get_order!/1 returns the order with given id" do
+    test "get_order/1 returns the order with given id" do
       order = order_fixture()
-      assert Orders.get_order!(order.id) == order
+      assert Orders.get_order(order.id) == order
     end
 
     test "create_order/1 with valid data creates a order" do
@@ -60,13 +60,13 @@ defmodule Easypub.OrdersTest do
     test "update_order/2 with invalid data returns error changeset" do
       order = order_fixture()
       assert {:error, %Ecto.Changeset{}} = Orders.update_order(order, @invalid_attrs)
-      assert order == Orders.get_order!(order.id)
+      assert order == Orders.get_order(order.id)
     end
 
     test "delete_order/1 deletes the order" do
       order = order_fixture()
       assert {:ok, %Order{}} = Orders.delete_order(order)
-      assert_raise Ecto.NoResultsError, fn -> Orders.get_order!(order.id) end
+      assert is_nil(Orders.get_order(order.id))
     end
 
     test "change_order/1 returns a order changeset" do

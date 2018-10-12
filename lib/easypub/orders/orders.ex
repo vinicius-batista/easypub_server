@@ -58,7 +58,7 @@ defmodule Easypub.Orders do
       ** (Ecto.NoResultsError)
 
   """
-  def get_order!(id), do: Repo.get!(Order, id)
+  def get_order(id), do: Repo.get(Order, id)
 
   @doc """
   Creates a order.

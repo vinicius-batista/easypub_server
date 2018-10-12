@@ -41,5 +41,12 @@ defmodule EasypubWeb.Schema.OrdersTypes do
       resolve(&OrdersResolvers.add_item_to_order/3)
       middleware(HandleErrors)
     end
+
+    field :close_order, :order do
+      arg(:order_id, :string)
+      middleware(Authentication)
+      resolve(&OrdersResolvers.close_order/3)
+      middleware(HandleErrors)
+    end
   end
 end
