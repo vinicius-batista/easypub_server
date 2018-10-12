@@ -3,11 +3,13 @@ defmodule Easypub.Bars.Table do
   import Ecto.Changeset
 
   alias Easypub.Bars.Bar
+  alias Easypub.Orders.Order
 
   schema "tables" do
     field(:number, :integer)
 
     belongs_to(:bar, Bar, foreign_key: :bar_id)
+    has_many(:orders, Order)
     timestamps()
   end
 

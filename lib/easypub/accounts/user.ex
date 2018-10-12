@@ -7,6 +7,7 @@ defmodule Easypub.Accounts.User do
 
   alias Easypub.Accounts.{Encryption, Token}
   alias Easypub.Bars.Bar
+  alias Easypub.Orders.Order
 
   schema "users" do
     field(:email, :string)
@@ -18,6 +19,7 @@ defmodule Easypub.Accounts.User do
 
     timestamps()
     has_many(:tokens, Token, on_delete: :delete_all)
+    has_many(:orders, Order)
     has_one(:bar, Bar, on_delete: :delete_all)
   end
 
