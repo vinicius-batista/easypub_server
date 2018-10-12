@@ -8,6 +8,8 @@ defmodule Easypub.Orders do
 
   alias Easypub.Orders.Order
 
+  defdelegate authorize(action, user, params), to: __MODULE__.Policy
+
   def add_item_to_order(attrs, user) do
     item_attrs = Map.take(attrs, [:quantity, :item_id, :note])
 
