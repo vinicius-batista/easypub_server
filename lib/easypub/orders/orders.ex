@@ -8,6 +8,29 @@ defmodule Easypub.Orders do
 
   alias Easypub.Orders.Order
 
+  def add_item_to_order(attrs, user) do
+    item_attrs = %{quantity: attrs.quantity, item_id: attrs.item_id}
+
+    case get_order_by(table_id: attrs.table_id, status: "aberto", user_id: user.id) do
+      nil ->
+        {:ok, order} = create_order(%{table_id: attrs.table_id, user_id: user.id})
+
+        %{order_id: order.id}
+        |> Enum.into(item_attrs)
+        |> create_order_item()
+
+      order ->
+        %{order_id: order.id}
+        |> Enum.into(item_attrs)
+        |> create_order_item()
+    end
+  end
+
+  def get_order_by(clauses) do
+    Order
+    |> Repo.get_by(clauses)
+  end
+
   @doc """
   Returns the list of orders.
 

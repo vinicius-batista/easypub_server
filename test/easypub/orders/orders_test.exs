@@ -95,6 +95,33 @@ defmodule Easypub.OrdersTest do
       order_item
     end
 
+    test "add_item_to_order/2 returns order item and created an order" do
+      item = BarsTest.menu_item_fixture()
+      user = AccountsTest.user_fixture()
+      table = BarsTest.table_fixture()
+
+      assert {:ok, %OrderItem{} = order_item} =
+               %{item_id: item.id, quantity: 2, table_id: table.id}
+               |> Orders.add_item_to_order(user)
+
+      assert order_item.item_id == item.id
+      assert order_item.quantity == 2
+
+      assert is_nil(Orders.get_order_by(table_id: table.id)) == false
+    end
+
+    test "add_item_to_order/2 returns order item and added to an existed order" do
+      item = BarsTest.menu_item_fixture()
+      order = order_fixture()
+
+      assert {:ok, %OrderItem{} = order_item} =
+               %{item_id: item.id, quantity: 2, table_id: order.table_id}
+               |> Orders.add_item_to_order(%{id: order.user_id})
+
+      assert order_item.item_id == item.id
+      assert order_item.quantity == 2
+    end
+
     test "list_order_items/0 returns all order_items" do
       order_item = order_item_fixture()
       assert Orders.list_order_items() == [order_item]
