@@ -34,7 +34,7 @@ defmodule EasypubWeb.Schema.BarsTypes do
   end
 
   input_object :update_bar_input do
-    field(:id, :string)
+    field(:id, non_null(:string))
     field(:name, :string)
     field(:avatar, :string)
     field(:address, :string)

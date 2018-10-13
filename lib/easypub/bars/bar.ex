@@ -19,8 +19,8 @@ defmodule Easypub.Bars.Bar do
     has_many(:tables, Table, on_delete: :delete_all)
   end
 
-  @required_fields ~w(address name avatar)a
-  @all_fields ~w(status)a ++ @required_fields
+  @required_fields ~w(address name)a
+  @all_fields ~w(status avatar)a ++ @required_fields
 
   @doc false
   def changeset(bar, attrs) do
