@@ -19,10 +19,10 @@ defmodule EasypubWeb.Context do
   def build_context(conn) do
     conn
     |> get_req_header("authorization")
-    |> case do
-      ["Bearer " <> token] -> AuthToken.authorize(token)
-      _ -> %{}
-    end
+    |> authorize()
     |> BuildLoader.build()
   end
+
+  defp authorize(["Bearer " <> token]), do: AuthToken.authorize(token)
+  defp authorize(_), do: %{}
 end

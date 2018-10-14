@@ -1,6 +1,9 @@
 defmodule EasypubWeb.UserSocket do
   use Phoenix.Socket
   use Absinthe.Phoenix.Socket, schema: EasypubWeb.Schema
+  alias Easypub.Accounts.AuthToken
+  alias EasypubWeb.Helpers.BuildLoader
+
   ## Channels
   # channel "room:*", EasypubWeb.RoomChannel
 
@@ -19,9 +22,20 @@ defmodule EasypubWeb.UserSocket do
   #
   # See `Phoenix.Token` documentation for examples in
   # performing token verification on connect.
-  def connect(_params, socket) do
-    {:ok, socket}
+  def connect(params, socket) do
+    %{"Authorization" => authorization} = params
+
+    context =
+      authorization
+      |> authorize()
+      |> BuildLoader.build()
+
+    socket_updated = Absinthe.Phoenix.Socket.put_options(socket, context: context)
+    {:ok, socket_updated}
   end
+
+  defp authorize("Bearer " <> token), do: AuthToken.authorize(token)
+  defp authorize(_), do: %{}
 
   # Socket id's are topics that allow you to identify all sockets for a given user:
   #
