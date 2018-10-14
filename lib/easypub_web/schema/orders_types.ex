@@ -6,7 +6,7 @@ defmodule EasypubWeb.Schema.OrdersTypes do
   import Absinthe.Resolution.Helpers, only: [dataloader: 1]
   alias Easypub.Bars.{Table, MenuItem}
   alias Easypub.Accounts.User
-  alias Easypub.Orders.OrderItem
+  alias Easypub.Orders.{OrderItem, Order}
   alias EasypubWeb.Middlewares.{Authentication, HandleErrors}
   alias EasypubWeb.Resolvers.OrdersResolvers
 
@@ -25,6 +25,8 @@ defmodule EasypubWeb.Schema.OrdersTypes do
     field(:id, :id)
     field(:quantity, :integer)
     field(:note, :string)
+    field(:inserted_at, :string)
+    field(:order, :order, resolve: dataloader(Order))
     field(:menu_item, :menu_item, resolve: dataloader(MenuItem))
   end
 
