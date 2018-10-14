@@ -9,3 +9,18 @@
 #
 # We recommend using the bang functions (`insert!`, `update!`
 # and so on) as they will fail if something goes wrong.
+
+alias Easypub.Repo
+alias Easypub.Accounts.User
+
+attrs = %{
+  email: "contato@easypub.com.br",
+  password: "Easypub123",
+  name: "admin-easypub",
+  phone: "1211111111",
+  role: "admin"
+}
+
+%User{}
+|> User.changeset(attrs)
+|> Repo.insert!()
