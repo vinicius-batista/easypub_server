@@ -31,11 +31,11 @@ defmodule EasypubWeb.Resolvers.OrdersResolvers do
     with :ok <- Bodyguard.permit(Orders, :get_order, current_user, order), do: {:ok, order}
   end
 
-  def order_item_requested(%{bar_id: bar_id}, %{context: context}) do
+  def order_subscription_config(%{bar_id: bar_id}, %{context: context}) do
     if Map.has_key?(context, :current_user) do
       bar = Bars.get_bar(bar_id)
 
-      with :ok <- Bodyguard.permit(Orders, :order_item_requested, context.current_user, bar),
+      with :ok <- Bodyguard.permit(Orders, :order_subscription_config, context.current_user, bar),
            do: {:ok, topic: bar_id}
     else
       {:error, :invalid_token}
@@ -43,6 +43,11 @@ defmodule EasypubWeb.Resolvers.OrdersResolvers do
   end
 
   def order_item_requested_trigger(%{order_id: order_id}) do
+    %{table: table} = Orders.get_order_with_table(order_id)
+    table.bar_id
+  end
+
+  def order_closed_trigger(%{id: order_id}) do
     %{table: table} = Orders.get_order_with_table(order_id)
     table.bar_id
   end
