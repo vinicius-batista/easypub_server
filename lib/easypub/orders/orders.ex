@@ -52,6 +52,15 @@ defmodule Easypub.Orders do
     |> Repo.all()
   end
 
+  def get_order_with_table(id) do
+    from(order in Order,
+      join: table in assoc(order, :table),
+      preload: [:table],
+      where: order.id == ^id
+    )
+    |> Repo.one()
+  end
+
   @doc """
   Gets a single order.
 

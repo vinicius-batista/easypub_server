@@ -72,4 +72,16 @@ defmodule EasypubWeb.Schema.OrdersTypes do
       resolve(&OrdersResolvers.get_order/3)
     end
   end
+
+  object :orders_subscriptions do
+    field :order_item_requested, :order_item do
+      arg(:bar_id, non_null(:string))
+      config(&OrdersResolvers.order_item_requested/2)
+
+      trigger(
+        :add_item_to_order,
+        topic: &OrdersResolvers.order_item_requested_trigger/1
+      )
+    end
+  end
 end

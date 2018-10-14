@@ -17,15 +17,13 @@ defmodule EasypubWeb.Router do
       Absinthe.Plug.GraphiQL,
       schema: EasypubWeb.Schema,
       socket: EasypubWeb.UserSocket,
-      interface: :advanced,
-      analyze_complexity: true,
-      max_complexity: 50
+      interface: :advanced
     )
 
     forward("/graphql", Absinthe.Plug,
       schema: EasypubWeb.Schema,
       analyze_complexity: true,
-      max_complexity: 50
+      max_complexity: 250
     )
   end
 end

@@ -28,6 +28,10 @@ defmodule EasypubWeb.Schema do
     import_fields(:orders_mutations)
   end
 
+  subscription do
+    import_fields(:orders_subscriptions)
+  end
+
   def plugins do
     [Dataloader] ++ Plugin.defaults()
   end
