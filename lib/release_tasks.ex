@@ -46,7 +46,7 @@ defmodule Easypub.ReleaseTasks do
   end
 
   defp run_migrations_for(repo) do
-    app = Keyword.get(repo.config, :easypub)
+    app = Keyword.get(repo.config, :otp_app)
     IO.puts("Running migrations for #{app}")
     migrations_path = priv_path_for(repo, "migrations")
     Ecto.Migrator.run(repo, migrations_path, :up, all: true)
@@ -67,7 +67,7 @@ defmodule Easypub.ReleaseTasks do
   end
 
   defp priv_path_for(repo, filename) do
-    app = Keyword.get(repo.config, :easypub)
+    app = Keyword.get(repo.config, :otp_app)
 
     repo_underscore =
       repo
