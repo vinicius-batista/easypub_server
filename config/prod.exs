@@ -73,7 +73,9 @@ config :easypub, EasypubWeb.Endpoint,
 
 config :easypub, Easypub.Repo,
   adapter: Ecto.Adapters.Postgres,
-  url: "${DATABASE_URL}",
+  username: "${DATABASE_USER}",
+  password: "${DATABASE_PASS}",
+  hostname: "${DATABASE_HOST}",
   database: "easypub_prod",
   ssl: true,
   pool_size: 10
