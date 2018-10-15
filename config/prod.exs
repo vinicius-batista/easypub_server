@@ -71,8 +71,7 @@ config :easypub, Easypub.Repo,
   username: System.get_env("DATABASE_USER"),
   password: System.get_env("DATABASE_PASS"),
   hostname: System.get_env("DATABASE_HOST"),
-  database: "easypub_prod",
-  ssl: true,
+  database: System.get_env("DATABASE"),
   pool_size: 10
 
 # Configure Guardian
