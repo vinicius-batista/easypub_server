@@ -1,4 +1,4 @@
-defmodule EasyPub.ReleaseTasks do
+defmodule Easypub.ReleaseTasks do
   @start_apps [
     :crypto,
     :ssl,
