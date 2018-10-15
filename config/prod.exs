@@ -61,4 +61,26 @@ config :logger, level: :info
 
 # Finally import the config/prod.secret.exs
 # which should be versioned separately.
-import_config "prod.secret.exs"
+config :easypub, EasypubWeb.Endpoint,
+  load_from_system_env: true,
+  # Needed for Phoenix 1.2 and 1.4. Doesn't hurt for 1.3.
+  http: [port: {:system, "PORT"}],
+  # Without this line, your app will not start the web server!
+  server: true,
+  secret_key_base: "${SECRET_KEY_BASE}",
+  url: [host: "altruistic-fresh-malamute.gigalixirapp.com", port: 80],
+  cache_static_manifest: "priv/static/cache_manifest.json"
+
+config :easypub, Easypub.Repo,
+  adapter: Ecto.Adapters.Postgres,
+  url: "${DATABASE_URL}",
+  database: "easypub_prod",
+  ssl: true,
+  pool_size: 10
+
+# Configure Guardian
+config :easypub, Easypub.Guardian,
+  issuer: "easypub",
+  secret_key: "${SECRET_KEY_BASE}",
+  verify_issuer: true,
+  ttl: {1, :week}

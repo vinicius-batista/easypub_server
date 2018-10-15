@@ -48,7 +48,8 @@ defmodule Easypub.Mixfile do
       {:bcrypt_elixir, "~> 1.0"},
       {:guardian, "~> 1.0"},
       {:bodyguard, "~> 2.2"},
-      {:email_checker, "~> 0.1.2"}
+      {:email_checker, "~> 0.1.2"},
+      {:distillery, "~> 1.5.5"}
     ]
   end
 
