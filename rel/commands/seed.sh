@@ -1,3 +1,3 @@
 #!/bin/sh
 
-release_ctl eval --mfa "MyApp.ReleaseTasks.seed/1" --argv -- "$@"
+release_ctl eval --mfa "Easypub.ReleaseTasks.seed/1" --argv -- "$@"
