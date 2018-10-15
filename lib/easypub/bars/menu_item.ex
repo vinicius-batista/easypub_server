@@ -12,6 +12,7 @@ defmodule Easypub.Bars.MenuItem do
     field(:description, :string)
     field(:waiting_time, :string)
     field(:people_count, :integer)
+    field(:code, :string)
 
     timestamps()
     belongs_to(:menu_category, MenuCategory, foreign_key: :category_id)
@@ -19,7 +20,7 @@ defmodule Easypub.Bars.MenuItem do
   end
 
   @required_fields ~w(name price description category_id)a
-  @all_fields ~w(photo waiting_time people_count)a ++ @required_fields
+  @all_fields ~w(photo waiting_time people_count code)a ++ @required_fields
 
   @doc false
   def changeset(menu_item, attrs) do

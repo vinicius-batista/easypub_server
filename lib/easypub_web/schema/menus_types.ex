@@ -23,6 +23,7 @@ defmodule EasypubWeb.Schema.MenusTypes do
     field(:name, :string)
     field(:photo, :string)
     field(:price, :float)
+    field(:code, :string)
     field(:description, :string)
     field(:waiting_time, :string)
     field(:inserted_at, :string)
@@ -45,6 +46,7 @@ defmodule EasypubWeb.Schema.MenusTypes do
     field(:photo, :string)
     field(:price, non_null(:float))
     field(:description, non_null(:string))
+    field(:code, :string)
     field(:waiting_time, :string)
     field(:people_count, :integer)
   end
