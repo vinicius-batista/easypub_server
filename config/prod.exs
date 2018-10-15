@@ -64,8 +64,7 @@ config :easypub, EasypubWeb.Endpoint,
   # Without this line, your app will not start the web server!
   server: true,
   secret_key_base: System.get_env("SECRET_KEY_BASE"),
-  url: [host: "altruistic-fresh-malamute.gigalixirapp.com", port: 80],
-  cache_static_manifest: "priv/static/cache_manifest.json"
+  url: [host: "altruistic-fresh-malamute.gigalixirapp.com", port: 80]
 
 config :easypub, Easypub.Repo,
   adapter: Ecto.Adapters.Postgres,
