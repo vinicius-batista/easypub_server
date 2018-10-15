@@ -4,8 +4,8 @@ defmodule Easypub.Mixfile do
   def project do
     [
       app: :easypub,
-      version: "0.1.4",
-      elixir: "~> 1.4",
+      version: "0.1.5",
+      elixir: "~> 1.7",
       elixirc_paths: elixirc_paths(Mix.env()),
       compilers: [:phoenix, :gettext] ++ Mix.compilers(),
       start_permanent: Mix.env() == :prod,
@@ -49,7 +49,7 @@ defmodule Easypub.Mixfile do
       {:guardian, "~> 1.0"},
       {:bodyguard, "~> 2.2"},
       {:email_checker, "~> 0.1.2"},
-      {:distillery, "~> 1.5.5"}
+      {:distillery, "~> 2.0"}
     ]
   end
 
