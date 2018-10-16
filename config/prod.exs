@@ -74,7 +74,7 @@ config :easypub, Easypub.Repo,
   database: System.get_env("DATABASE"),
   ssl: true,
   pool_size: 10,
-  pool_timeout: 15000
+  pool_timeout: 15000,
   timeout: 30000
 
 # Configure Guardian
