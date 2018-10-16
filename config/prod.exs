@@ -73,7 +73,7 @@ config :easypub, Easypub.Repo,
   hostname: System.get_env("DATABASE_HOST"),
   database: System.get_env("DATABASE"),
   ssl: true,
-  pool_size: 5,
+  pool_size: 5
 
 # Configure Guardian
 config :easypub, Easypub.Guardian,
