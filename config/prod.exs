@@ -64,7 +64,7 @@ config :easypub, EasypubWeb.Endpoint,
   # Without this line, your app will not start the web server!
   server: true,
   secret_key_base: System.get_env("SECRET_KEY_BASE"),
-  url: [host: "altruistic-fresh-malamute.gigalixirapp.com", port: 80]
+  url: [host: "antique-demanding-irukandjijellyfish.gigalixirapp.com", port: 80]
 
 config :easypub, Easypub.Repo,
   adapter: Ecto.Adapters.Postgres,
@@ -73,9 +73,7 @@ config :easypub, Easypub.Repo,
   hostname: System.get_env("DATABASE_HOST"),
   database: System.get_env("DATABASE"),
   ssl: true,
-  pool_size: 10,
-  pool_timeout: :infinity,
-  timeout: :infinity
+  pool_size: 5,
 
 # Configure Guardian
 config :easypub, Easypub.Guardian,
