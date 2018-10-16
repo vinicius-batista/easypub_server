@@ -73,7 +73,9 @@ config :easypub, Easypub.Repo,
   hostname: System.get_env("DATABASE_HOST"),
   database: System.get_env("DATABASE"),
   ssl: true,
-  pool_size: 10
+  pool_size: 10,
+  pool_timeout: 15000
+  timeout: 30000
 
 # Configure Guardian
 config :easypub, Easypub.Guardian,
