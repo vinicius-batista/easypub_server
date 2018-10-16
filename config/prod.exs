@@ -64,7 +64,7 @@ config :easypub, EasypubWeb.Endpoint,
   # Without this line, your app will not start the web server!
   server: true,
   secret_key_base: "${SECRET_KEY_BASE}",
-  url: [host: "burly-glistening-albacoretuna.gigalixirapp.com", port: 80]
+  url: [host: "easypub.gigalixirapp.com", port: 80]
 
 config :easypub, Easypub.Repo,
   adapter: Ecto.Adapters.Postgres,
