@@ -237,4 +237,55 @@ defmodule Easypub.Orders do
   def change_order_item(%OrderItem{} = order_item) do
     OrderItem.changeset(order_item, %{})
   end
+
+  alias Easypub.Orders.Feedback
+
+  @doc """
+  Returns the list of feedbacks.
+
+  ## Examples
+
+      iex> list_feedbacks()
+      [%Feedback{}, ...]
+
+  """
+  def list_feedbacks do
+    Repo.all(Feedback)
+  end
+
+  @doc """
+  Gets a single feedback.
+
+  Raises `Ecto.NoResultsError` if the Feedback does not exist.
+
+  ## Examples
+
+      iex> get_feedback!(123)
+      %Feedback{}
+
+      iex> get_feedback!(456)
+      ** (Ecto.NoResultsError)
+
+  """
+  def get_feedback(id), do: Repo.get!(Feedback, id)
+
+  def get_feedback_by(clauses \\ []), do: Repo.get_by(Feedback, clauses)
+
+  @doc """
+  Creates a feedback.
+
+  ## Examples
+
+      iex> create_feedback(%{field: value})
+      {:ok, %Feedback{}}
+
+      iex> create_feedback(%{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def create_feedback(attrs \\ %{}) do
+    %Feedback{}
+    |> Feedback.changeset(attrs)
+    |> Repo.insert()
+  end
 end

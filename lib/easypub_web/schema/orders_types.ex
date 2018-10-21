@@ -6,7 +6,7 @@ defmodule EasypubWeb.Schema.OrdersTypes do
   import Absinthe.Resolution.Helpers, only: [dataloader: 1]
   alias Easypub.Bars.{Table, MenuItem}
   alias Easypub.Accounts.User
-  alias Easypub.Orders.{OrderItem, Order}
+  alias Easypub.Orders.{OrderItem, Order, Feedback}
   alias EasypubWeb.Middlewares.{Authentication, HandleErrors}
   alias EasypubWeb.Resolvers.OrdersResolvers
 
@@ -18,6 +18,7 @@ defmodule EasypubWeb.Schema.OrdersTypes do
     field(:table, :table, resolve: dataloader(Table))
     field(:user, :user, resolve: dataloader(User))
     field(:items, list_of(:order_item), resolve: dataloader(OrderItem))
+    field(:feedback, :feedback, resolve: dataloader(Feedback))
   end
 
   @desc "Object for order_item type"
@@ -30,11 +31,29 @@ defmodule EasypubWeb.Schema.OrdersTypes do
     field(:menu_item, :menu_item, resolve: dataloader(MenuItem))
   end
 
+  @desc "Object for feedback type"
+  object :feedback do
+    field(:id, :id)
+    field(:app_rating, :float)
+    field(:bar_rating, :float)
+    field(:has_mistake, :boolean)
+    field(:indication, :integer)
+    field(:order, :order, resolve: dataloader(Order))
+  end
+
   input_object :add_item_input do
     field(:table_id, non_null(:string))
     field(:item_id, non_null(:string))
     field(:quantity, non_null(:integer))
     field(:note, :string)
+  end
+
+  input_object :create_feedback_input do
+    field(:order_id, non_null(:string))
+    field(:app_rating, :float)
+    field(:bar_rating, :float)
+    field(:has_mistake, :boolean)
+    field(:indication, :integer)
   end
 
   object :orders_mutations do
@@ -49,6 +68,13 @@ defmodule EasypubWeb.Schema.OrdersTypes do
       arg(:order_id, :string)
       middleware(Authentication)
       resolve(&OrdersResolvers.close_order/3)
+      middleware(HandleErrors)
+    end
+
+    field :create_feedback, :feedback do
+      arg(:input, non_null(:create_feedback_input))
+      middleware(Authentication)
+      resolve(&OrdersResolvers.create_feedback/3)
       middleware(HandleErrors)
     end
   end
@@ -70,6 +96,12 @@ defmodule EasypubWeb.Schema.OrdersTypes do
       arg(:id, :string)
       middleware(Authentication)
       resolve(&OrdersResolvers.get_order/3)
+    end
+
+    field :feedback, :feedback do
+      arg(:order_id, non_null(:string))
+      middleware(Authentication)
+      resolve(&OrdersResolvers.get_feedback/3)
     end
   end
 

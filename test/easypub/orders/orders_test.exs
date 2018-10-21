@@ -176,4 +176,56 @@ defmodule Easypub.OrdersTest do
       assert %Ecto.Changeset{} = Orders.change_order_item(order_item)
     end
   end
+
+  describe "feedbacks" do
+    alias Easypub.Orders.Feedback
+
+    @valid_attrs %{app_rating: "2.5", bar_rating: "2.5", has_mistake: true, indication: 8}
+    @invalid_attrs %{app_rating: nil, bar_rating: nil, has_mistake: nil, indication: nil}
+
+    def feedback_fixture(attrs \\ %{}) do
+      order = order_fixture()
+
+      {:ok, feedback} =
+        attrs
+        |> Enum.into(%{order_id: order.id})
+        |> Enum.into(@valid_attrs)
+        |> Orders.create_feedback()
+
+      feedback
+    end
+
+    test "list_feedbacks/0 returns all feedbacks" do
+      feedback = feedback_fixture()
+      assert Orders.list_feedbacks() == [feedback]
+    end
+
+    test "get_feedback/1 returns the feedback with given id" do
+      feedback = feedback_fixture()
+      assert Orders.get_feedback(feedback.id) == feedback
+    end
+
+    test "create_feedback/1 with valid data creates a feedback" do
+      order = order_fixture()
+
+      attrs =
+        %{order_id: order.id}
+        |> Enum.into(@valid_attrs)
+
+      assert {:ok, %Feedback{} = feedback} = Orders.create_feedback(attrs)
+      assert feedback.app_rating == Decimal.new("2.5")
+      assert feedback.bar_rating == Decimal.new("2.5")
+      assert feedback.has_mistake == true
+      assert feedback.indication == 8
+    end
+
+    test "create_feedback/1 with invalid data returns error changeset" do
+      assert {:error, %Ecto.Changeset{}} = Orders.create_feedback(@invalid_attrs)
+    end
+
+    test "get_feedback_by/1 with valid order_id" do
+      feedback = feedback_fixture()
+      assert Orders.get_feedback_by(order_id: feedback.order_id) == feedback
+    end
+  end
 end

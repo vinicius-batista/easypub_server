@@ -20,12 +20,22 @@ defmodule EasypubWeb.OrdersResolversTest do
     menu_item = BarsTest.menu_item_fixture()
     order = OrdersTest.order_fixture()
 
+    {:ok, feedback} =
+      %{
+        order_id: order.id,
+        app_rating: 2.5,
+        bar_rating: 5,
+        has_mistake: true
+      }
+      |> Orders.create_feedback()
+
     {:ok,
      %{
        user: %Accounts.User{user | password: nil},
        table: table,
        menu_item: menu_item,
-       order: order
+       order: order,
+       feedback: feedback
      }}
   end
 
@@ -166,5 +176,78 @@ defmodule EasypubWeb.OrdersResolversTest do
 
     assert is_list(response)
     assert not Enum.empty?(response)
+  end
+
+  test "create feedback should return a new feedback", %{
+    order: order,
+    conn: conn
+  } do
+    query = """
+    mutation($input:CreateFeedbackInput!) {
+      createFeedback(input:$input) {
+        id,
+        appRating,
+        barRating,
+        hasMistake,
+        indication
+      }
+    }
+    """
+
+    variables = %{
+      input: %{
+        orderId: order.id,
+        appRating: 2.5,
+        barRating: 4.5,
+        hasMistake: false,
+        indication: 5
+      }
+    }
+
+    user = Accounts.get_user!(order.user_id)
+
+    response =
+      conn
+      |> authenticate_user(user)
+      |> graphql_query(query: query, variables: variables)
+      |> get_query_data("createFeedback")
+
+    assert response["appRating"] == "2.5"
+    assert response["barRating"] == "4.5"
+    assert response["hasMistake"] == false
+    assert response["indication"] == 5
+  end
+
+  test "feedback should return a feedback related to order_id arg", %{
+    conn: conn,
+    feedback: feedback,
+    user: user
+  } do
+    query = """
+    query ($orderId: String!){
+      feedback(orderId:$orderId) {
+        id,
+        appRating,
+        barRating,
+        indication,
+        hasMistake
+      }
+    }
+    """
+
+    variables = %{
+      orderId: feedback.order_id
+    }
+
+    response =
+      conn
+      |> authenticate_user(user)
+      |> graphql_query(query: query, variables: variables)
+      |> get_query_data("feedback")
+
+    assert response["appRating"] == to_string(feedback.app_rating)
+    assert response["barRating"] == to_string(feedback.bar_rating)
+    assert response["hasMistake"] == feedback.has_mistake
+    assert response["indication"] == feedback.indication
   end
 end

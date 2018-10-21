@@ -51,4 +51,16 @@ defmodule EasypubWeb.Resolvers.OrdersResolvers do
     %{table: table} = Orders.get_order_with_table(order_id)
     table.bar_id
   end
+
+  def create_feedback(_, %{input: input}, %{context: %{current_user: current_user}}) do
+    order = Orders.get_order(input.order_id)
+
+    with :ok <- Bodyguard.permit(Orders, :create_feedback, current_user, order),
+         do: Orders.create_feedback(input)
+  end
+
+  def get_feedback(_, %{order_id: order_id}, _) do
+    feedback = Orders.get_feedback_by(order_id: order_id)
+    {:ok, feedback}
+  end
 end
