@@ -4,7 +4,7 @@ defmodule Easypub.Mixfile do
   def project do
     [
       app: :easypub,
-      version: "0.1.11",
+      version: "0.2.0",
       elixir: "~> 1.7",
       elixirc_paths: elixirc_paths(Mix.env()),
       compilers: [:phoenix, :gettext] ++ Mix.compilers(),
