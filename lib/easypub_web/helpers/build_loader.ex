@@ -27,6 +27,18 @@ defmodule EasypubWeb.Helpers.BuildLoader do
     Ecto.new(Easypub.Repo, query: &query/2)
   end
 
+  defp query(MenuCategory, _params) do
+    from(menu_category in MenuCategory,
+      order_by: menu_category.inserted_at
+    )
+  end
+
+  defp query(MenuItem, _params) do
+    from(menu_item in MenuItem,
+      order_by: menu_item.inserted_at
+    )
+  end
+
   defp query(queryable, _params) do
     queryable
   end

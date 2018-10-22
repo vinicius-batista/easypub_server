@@ -228,7 +228,8 @@ defmodule Easypub.Bars do
   def list_menu_items(category_id) do
     from(
       menu_item in MenuItem,
-      where: menu_item.category_id == ^category_id
+      where: menu_item.category_id == ^category_id,
+      order_by: menu_item.inserted_at
     )
     |> Repo.all()
   end
