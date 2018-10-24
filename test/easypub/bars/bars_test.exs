@@ -72,11 +72,6 @@ defmodule Easypub.BarsTest do
       assert {:ok, %Bar{}} = Bars.delete_bar(bar)
       assert nil == Bars.get_bar(bar.id)
     end
-
-    test "change_bar/1 returns a bar changeset" do
-      bar = bar_fixture()
-      assert %Ecto.Changeset{} = Bars.change_bar(bar)
-    end
   end
 
   describe "menu_categories" do
@@ -108,11 +103,6 @@ defmodule Easypub.BarsTest do
     test "list_menu_categories/0 returns all menu_categories" do
       menu_category = menu_category_fixture()
       assert Bars.list_menu_categories(menu_category.bar_id) == [menu_category]
-    end
-
-    test "get_menu_category!/1 returns the menu_category with given id" do
-      menu_category = menu_category_fixture()
-      assert Bars.get_menu_category!(menu_category.id) == menu_category
     end
 
     test "get_menu_category_with_bar/1 returns menu_category id and bar id" do
@@ -159,18 +149,13 @@ defmodule Easypub.BarsTest do
       assert {:error, %Ecto.Changeset{}} =
                Bars.update_menu_category(menu_category, @invalid_attrs)
 
-      assert menu_category == Bars.get_menu_category!(menu_category.id)
+      assert menu_category == Repo.get!(MenuCategory, menu_category.id)
     end
 
     test "delete_menu_category/1 deletes the menu_category" do
       menu_category = menu_category_fixture()
       assert {:ok, %MenuCategory{}} = Bars.delete_menu_category(menu_category)
-      assert_raise Ecto.NoResultsError, fn -> Bars.get_menu_category!(menu_category.id) end
-    end
-
-    test "change_menu_category/1 returns a menu_category changeset" do
-      menu_category = menu_category_fixture()
-      assert %Ecto.Changeset{} = Bars.change_menu_category(menu_category)
+      assert_raise Ecto.NoResultsError, fn -> Repo.get!(MenuCategory, menu_category.id) end
     end
   end
 
@@ -267,11 +252,6 @@ defmodule Easypub.BarsTest do
       assert {:ok, %MenuItem{}} = Bars.delete_menu_item(menu_item)
       assert nil == Bars.get_menu_item(menu_item.id)
     end
-
-    test "change_menu_item/1 returns a menu_item changeset" do
-      menu_item = menu_item_fixture()
-      assert %Ecto.Changeset{} = Bars.change_menu_item(menu_item)
-    end
   end
 
   describe "tables" do
@@ -298,16 +278,6 @@ defmodule Easypub.BarsTest do
         |> Bars.create_table()
 
       table
-    end
-
-    test "list_tables/0 returns all tables" do
-      table = table_fixture()
-      assert Bars.list_tables() == [table]
-    end
-
-    test "get_table!/1 returns the table with given id" do
-      table = table_fixture()
-      assert Bars.get_table!(table.id) == table
     end
 
     test "create_table/1 with valid data creates a table" do
@@ -343,18 +313,7 @@ defmodule Easypub.BarsTest do
     test "update_table/2 with invalid data returns error changeset" do
       table = table_fixture()
       assert {:error, %Ecto.Changeset{}} = Bars.update_table(table, @invalid_attrs)
-      assert table == Bars.get_table!(table.id)
-    end
-
-    test "delete_table/1 deletes the table" do
-      table = table_fixture()
-      assert {:ok, %Table{}} = Bars.delete_table(table)
-      assert_raise Ecto.NoResultsError, fn -> Bars.get_table!(table.id) end
-    end
-
-    test "change_table/1 returns a table changeset" do
-      table = table_fixture()
-      assert %Ecto.Changeset{} = Bars.change_table(table)
+      assert table == Repo.get!(Table, table.id)
     end
   end
 end

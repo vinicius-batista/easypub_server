@@ -13,11 +13,11 @@ defmodule EasypubWeb.Resolvers.OrdersResolvers do
     order = Orders.get_order(order_id)
 
     with :ok <- Bodyguard.permit(Orders, :close_order, current_user, order),
-         do: Orders.update_order(order, %{status: "fechado"})
+         do: Orders.close_order(order)
   end
 
   def current_order(_, _, %{context: %{current_user: current_user}}) do
-    order = Orders.get_order_by(user_id: current_user.id, status: "aberto")
+    order = Orders.current_order(current_user)
     {:ok, order}
   end
 

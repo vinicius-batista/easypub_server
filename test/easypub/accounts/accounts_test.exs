@@ -32,13 +32,6 @@ defmodule Easypub.AccountsTest do
       user
     end
 
-    test "list_users/0 returns all users" do
-      user = user_fixture()
-      user = %User{user | password: nil}
-
-      assert Accounts.list_users() == [user]
-    end
-
     test "get_user!/1 returns the user with given id" do
       user = user_fixture()
       user = %User{user | password: nil}
@@ -73,17 +66,6 @@ defmodule Easypub.AccountsTest do
       assert {:error, %Ecto.Changeset{}} = Accounts.update_user(user, @invalid_attrs)
       assert user == Accounts.get_user!(user.id)
     end
-
-    test "delete_user/1 deletes the user" do
-      user = user_fixture()
-      assert {:ok, %User{}} = Accounts.delete_user(user)
-      assert_raise Ecto.NoResultsError, fn -> Accounts.get_user!(user.id) end
-    end
-
-    test "change_user/1 returns a user changeset" do
-      user = user_fixture()
-      assert %Ecto.Changeset{} = Accounts.change_user(user)
-    end
   end
 
   describe "tokens" do
@@ -103,16 +85,6 @@ defmodule Easypub.AccountsTest do
         |> Accounts.create_token()
 
       token
-    end
-
-    test "list_tokens/0 returns all tokens" do
-      token = token_fixture()
-      assert Accounts.list_tokens() == [token]
-    end
-
-    test "get_token!/1 returns the token with given id" do
-      token = token_fixture()
-      assert Accounts.get_token!(token.id) == token
     end
 
     test "create_token/1 with valid data creates a token" do
@@ -138,18 +110,7 @@ defmodule Easypub.AccountsTest do
     test "update_token/2 with invalid data returns error changeset" do
       token = token_fixture()
       assert {:error, _} = Accounts.update_token(token, @invalid_attrs)
-      assert token == Accounts.get_token!(token.id)
-    end
-
-    test "delete_token/1 deletes the token" do
-      token = token_fixture()
-      assert {:ok, %Token{}} = Accounts.delete_token(token)
-      assert_raise Ecto.NoResultsError, fn -> Accounts.get_token!(token.id) end
-    end
-
-    test "change_token/1 returns a token changeset" do
-      token = token_fixture()
-      assert %Ecto.Changeset{} = Accounts.change_token(token)
+      assert token == Repo.get(Token, token.id)
     end
   end
 end

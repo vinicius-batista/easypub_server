@@ -8,7 +8,6 @@ defmodule Easypub.OrdersTest do
     alias Easypub.Orders.Order
 
     @valid_attrs %{status: "some status"}
-    @update_attrs %{status: "some updated status"}
     @invalid_attrs %{status: nil, table_id: nil, user_id: nil}
 
     def order_fixture(attrs \\ %{}) do
@@ -50,28 +49,11 @@ defmodule Easypub.OrdersTest do
       assert {:error, %Ecto.Changeset{}} = Orders.create_order(@invalid_attrs)
     end
 
-    test "update_order/2 with valid data updates the order" do
+    test "close_order/2 with valid data updates the order" do
       order = order_fixture()
-      assert {:ok, order} = Orders.update_order(order, @update_attrs)
+      assert {:ok, order} = Orders.close_order(order)
       assert %Order{} = order
-      assert order.status == "some updated status"
-    end
-
-    test "update_order/2 with invalid data returns error changeset" do
-      order = order_fixture()
-      assert {:error, %Ecto.Changeset{}} = Orders.update_order(order, @invalid_attrs)
-      assert order == Orders.get_order(order.id)
-    end
-
-    test "delete_order/1 deletes the order" do
-      order = order_fixture()
-      assert {:ok, %Order{}} = Orders.delete_order(order)
-      assert is_nil(Orders.get_order(order.id))
-    end
-
-    test "change_order/1 returns a order changeset" do
-      order = order_fixture()
-      assert %Ecto.Changeset{} = Orders.change_order(order)
+      assert order.status == "fechado"
     end
   end
 
@@ -79,7 +61,6 @@ defmodule Easypub.OrdersTest do
     alias Easypub.Orders.OrderItem
 
     @valid_attrs %{quantity: 42, note: "some note"}
-    @update_attrs %{quantity: 43, note: "some updated note"}
     @invalid_attrs %{quantity: nil, note: nil}
 
     def order_item_fixture(attrs \\ %{}) do
@@ -124,11 +105,6 @@ defmodule Easypub.OrdersTest do
       assert order_item.note == "some note"
     end
 
-    test "list_order_items/0 returns all order_items" do
-      order_item = order_item_fixture()
-      assert Orders.list_order_items() == [order_item]
-    end
-
     test "get_order_item!/1 returns the order_item with given id" do
       order_item = order_item_fixture()
       assert Orders.get_order_item!(order_item.id) == order_item
@@ -151,29 +127,10 @@ defmodule Easypub.OrdersTest do
       assert {:error, %Ecto.Changeset{}} = Orders.create_order_item(@invalid_attrs)
     end
 
-    test "update_order_item/2 with valid data updates the order_item" do
-      order_item = order_item_fixture()
-      assert {:ok, order_item} = Orders.update_order_item(order_item, @update_attrs)
-      assert %OrderItem{} = order_item
-      assert order_item.quantity == 43
-      assert order_item.note == "some updated note"
-    end
-
-    test "update_order_item/2 with invalid data returns error changeset" do
-      order_item = order_item_fixture()
-      assert {:error, %Ecto.Changeset{}} = Orders.update_order_item(order_item, @invalid_attrs)
-      assert order_item == Orders.get_order_item!(order_item.id)
-    end
-
     test "delete_order_item/1 deletes the order_item" do
       order_item = order_item_fixture()
       assert {:ok, %OrderItem{}} = Orders.delete_order_item(order_item)
       assert_raise Ecto.NoResultsError, fn -> Orders.get_order_item!(order_item.id) end
-    end
-
-    test "change_order_item/1 returns a order_item changeset" do
-      order_item = order_item_fixture()
-      assert %Ecto.Changeset{} = Orders.change_order_item(order_item)
     end
   end
 
@@ -193,16 +150,6 @@ defmodule Easypub.OrdersTest do
         |> Orders.create_feedback()
 
       feedback
-    end
-
-    test "list_feedbacks/0 returns all feedbacks" do
-      feedback = feedback_fixture()
-      assert Orders.list_feedbacks() == [feedback]
-    end
-
-    test "get_feedback/1 returns the feedback with given id" do
-      feedback = feedback_fixture()
-      assert Orders.get_feedback(feedback.id) == feedback
     end
 
     test "create_feedback/1 with valid data creates a feedback" do
