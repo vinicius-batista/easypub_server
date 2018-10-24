@@ -115,6 +115,15 @@ defmodule Easypub.BarsTest do
       assert Bars.get_menu_category!(menu_category.id) == menu_category
     end
 
+    test "get_menu_category_with_bar/1 returns menu_category id and bar id" do
+      menu_category = menu_category_fixture()
+
+      menu_category_queried = Bars.get_menu_category_with_bar(menu_category.id)
+
+      assert menu_category_queried.id == menu_category.id
+      assert not is_nil(menu_category_queried.bar.id)
+    end
+
     test "create_menu_category/1 with valid data creates a menu_category" do
       bar =
         %{
@@ -206,6 +215,13 @@ defmodule Easypub.BarsTest do
     test "get_menu_item/1 returns the menu_item with given id" do
       menu_item = menu_item_fixture()
       assert Bars.get_menu_item(menu_item.id) == menu_item
+    end
+
+    test "get_menu_item_with_bar/1 returns the menu_item with bar" do
+      menu_item = menu_item_fixture()
+      menu_item_queried = Bars.get_menu_item_with_bar(menu_item.id)
+
+      assert not is_nil(menu_item_queried.menu_category.bar.id)
     end
 
     test "create_menu_item/1 with valid data creates a menu_item" do

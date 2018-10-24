@@ -20,7 +20,7 @@ defmodule Easypub.Bars.Bar do
   end
 
   @required_fields ~w(address name)a
-  @all_fields ~w(status avatar)a ++ @required_fields
+  @all_fields ~w(status avatar user_id)a ++ @required_fields
 
   @doc false
   def changeset(bar, attrs) do

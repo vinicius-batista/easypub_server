@@ -35,4 +35,38 @@ defmodule EasypubWeb.Resolvers.MenuResolvers do
     menu_item = Bars.get_menu_item(id)
     {:ok, menu_item}
   end
+
+  def update_menu_category(_, %{input: input}, %{context: %{current_user: current_user}}) do
+    %{bar: bar} = menu_category = Bars.get_menu_category_with_bar(input.id)
+
+    with :ok <- Bodyguard.permit(Bars, :update_menu_category, current_user, bar) do
+      Bars.update_menu_category(menu_category, input)
+    end
+  end
+
+  def delete_menu_category(_, %{id: id}, %{context: %{current_user: current_user}}) do
+    %{bar: bar} = menu_category = Bars.get_menu_category_with_bar(id)
+
+    with :ok <- Bodyguard.permit(Bars, :delete_menu_category, current_user, bar) do
+      {:ok, _} = Bars.delete_menu_category(menu_category)
+      {:ok, "Categoria excluida com sucesso!"}
+    end
+  end
+
+  def update_menu_item(_, %{input: input}, %{context: %{current_user: current_user}}) do
+    %{menu_category: %{bar: bar}} = menu_item = Bars.get_menu_item_with_bar(input.id)
+
+    with :ok <- Bodyguard.permit(Bars, :update_menu_item, current_user, bar) do
+      Bars.update_menu_item(menu_item, input)
+    end
+  end
+
+  def delete_menu_item(_, %{id: id}, %{context: %{current_user: current_user}}) do
+    %{menu_category: %{bar: bar}} = menu_item = Bars.get_menu_item_with_bar(id)
+
+    with :ok <- Bodyguard.permit(Bars, :delete_menu_item, current_user, bar) do
+      {:ok, _} = Bars.delete_menu_item(menu_item)
+      {:ok, "Produto excluido com sucesso!"}
+    end
+  end
 end

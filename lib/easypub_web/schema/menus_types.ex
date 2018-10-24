@@ -39,6 +39,12 @@ defmodule EasypubWeb.Schema.MenusTypes do
     field(:bar_id, non_null(:string))
   end
 
+  @desc "Input object for update_menu_category"
+  input_object :update_menu_category_input do
+    field(:id, non_null(:string))
+    field(:name, non_null(:string))
+  end
+
   @desc "Input object for create_menu_item"
   input_object :create_menu_item_input do
     field(:name, non_null(:string))
@@ -46,6 +52,19 @@ defmodule EasypubWeb.Schema.MenusTypes do
     field(:photo, :string)
     field(:price, non_null(:float))
     field(:description, non_null(:string))
+    field(:code, :string)
+    field(:waiting_time, :string)
+    field(:people_count, :integer)
+  end
+
+  @desc "Input object for update_menu_item_input"
+  input_object :update_menu_item_input do
+    field(:id, non_null(:string))
+    field(:name, :string)
+    field(:category_id, :string)
+    field(:photo, :string)
+    field(:price, :float)
+    field(:description, :string)
     field(:code, :string)
     field(:waiting_time, :string)
     field(:people_count, :integer)
@@ -63,6 +82,34 @@ defmodule EasypubWeb.Schema.MenusTypes do
       arg(:input, non_null(:create_menu_item_input))
       middleware(Authentication)
       resolve(&MenuResolvers.create_menu_item/3)
+      middleware(HandleErrors)
+    end
+
+    field(:update_menu_category, :menu_category) do
+      arg(:input, non_null(:update_menu_category_input))
+      middleware(Authentication)
+      resolve(&MenuResolvers.update_menu_category/3)
+      middleware(HandleErrors)
+    end
+
+    field(:delete_menu_category, :string) do
+      arg(:id, non_null(:string))
+      middleware(Authentication)
+      resolve(&MenuResolvers.delete_menu_category/3)
+      middleware(HandleErrors)
+    end
+
+    field(:update_menu_item, :menu_item) do
+      arg(:input, non_null(:update_menu_item_input))
+      middleware(Authentication)
+      resolve(&MenuResolvers.update_menu_item/3)
+      middleware(HandleErrors)
+    end
+
+    field(:delete_menu_item, :string) do
+      arg(:id, non_null(:string))
+      middleware(Authentication)
+      resolve(&MenuResolvers.delete_menu_item/3)
       middleware(HandleErrors)
     end
   end

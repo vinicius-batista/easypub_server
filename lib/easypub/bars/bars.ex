@@ -146,7 +146,14 @@ defmodule Easypub.Bars do
   def get_menu_category!(id), do: Repo.get!(MenuCategory, id)
 
   def get_menu_category_with_bar(id) do
-    Repo.get(MenuCategory, id, preload: [:bar])
+    bar_query = from(bar in Bar, select: [:id, :user_id])
+
+    from(menu_category in MenuCategory,
+      join: bar in assoc(menu_category, :bar),
+      preload: [bar: ^bar_query],
+      where: menu_category.id == ^id
+    )
+    |> Repo.one()
   end
 
   @doc """
@@ -249,6 +256,18 @@ defmodule Easypub.Bars do
 
   """
   def get_menu_item(id), do: Repo.get(MenuItem, id)
+
+  def get_menu_item_with_bar(id) do
+    bar_query = from(bar in Bar, select: [:id, :user_id])
+
+    from(
+      menu_item in MenuItem,
+      join: menu_category in assoc(menu_item, :menu_category),
+      where: menu_item.id == ^id,
+      preload: [menu_category: {menu_category, bar: ^bar_query}]
+    )
+    |> Repo.one()
+  end
 
   @doc """
   Creates a menu_item.
