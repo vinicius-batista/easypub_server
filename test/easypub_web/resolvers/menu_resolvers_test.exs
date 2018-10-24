@@ -18,13 +18,13 @@ defmodule EasypubWeb.MenuResolversTest do
       |> Accounts.create_user()
 
     {:ok, bar} =
-      %{user_id: user.id}
-      |> Enum.into(%{
+      %{
+        user_id: user.id,
         address: "some address",
         avatar: "some avatar",
         name: "some name",
         status: "some status"
-      })
+      }
       |> Bars.create_bar()
 
     {:ok, menu_category} =
