@@ -10,17 +10,23 @@ defmodule EasypubWeb.Helpers.BuildLoader do
 
   def build(ctx) do
     loader =
-      Dataloader.new()
-      |> Dataloader.add_source(User, data())
-      |> Dataloader.add_source(Bar, data())
-      |> Dataloader.add_source(MenuCategory, data())
-      |> Dataloader.add_source(MenuItem, data())
-      |> Dataloader.add_source(Table, data())
-      |> Dataloader.add_source(Order, data())
-      |> Dataloader.add_source(OrderItem, data())
-      |> Dataloader.add_source(Feedback, data())
+      sources()
+      |> Enum.reduce(Dataloader.new(), &Dataloader.add_source(&2, &1, data()))
 
     Map.put(ctx, :loader, loader)
+  end
+
+  defp sources do
+    [
+      User,
+      Bar,
+      MenuCategory,
+      MenuItem,
+      Table,
+      Order,
+      OrderItem,
+      Feedback
+    ]
   end
 
   defp data do
