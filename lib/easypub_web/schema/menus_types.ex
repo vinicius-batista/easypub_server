@@ -51,7 +51,7 @@ defmodule EasypubWeb.Schema.MenusTypes do
     field(:category_id, non_null(:string))
     field(:photo, :string)
     field(:price, non_null(:float))
-    field(:description, non_null(:string))
+    field(:description, :string)
     field(:code, :string)
     field(:waiting_time, :string)
     field(:people_count, :integer)
