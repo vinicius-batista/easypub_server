@@ -19,8 +19,8 @@ defmodule Easypub.Bars.MenuItem do
     has_many(:order_items, OrderItem, foreign_key: :item_id)
   end
 
-  @required_fields ~w(name price description category_id)a
-  @all_fields ~w(photo waiting_time people_count code)a ++ @required_fields
+  @required_fields ~w(name price category_id)a
+  @all_fields ~w(description photo waiting_time people_count code)a ++ @required_fields
 
   @doc false
   def changeset(menu_item, attrs) do
