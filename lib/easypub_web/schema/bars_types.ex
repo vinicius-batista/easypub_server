@@ -47,6 +47,11 @@ defmodule EasypubWeb.Schema.BarsTypes do
     field(:number, non_null(:integer))
   end
 
+  input_object :update_table_input do
+    field(:id, non_null(:string))
+    field(:number, non_null(:integer))
+  end
+
   object :bars_mutations do
     field :create_bar, :bar do
       arg(:input, non_null(:create_bar_input))
@@ -73,6 +78,13 @@ defmodule EasypubWeb.Schema.BarsTypes do
       arg(:input, non_null(:create_table_input))
       middleware(Authentication)
       resolve(&BarsResolvers.create_table/3)
+      middleware(HandleErrors)
+    end
+
+    field :update_table, :table do
+      arg(:input, non_null(:update_table_input))
+      middleware(Authentication)
+      resolve(&BarsResolvers.update_table/3)
       middleware(HandleErrors)
     end
   end

@@ -48,4 +48,13 @@ defmodule EasypubWeb.Resolvers.BarsResolvers do
     with :ok <- Bodyguard.permit(Bars, :create_table, current_user, bar),
          do: Bars.create_table(input)
   end
+
+  def update_table(_, %{input: input}, %{context: %{current_user: current_user}}) do
+    table = Bars.get_table(input.id)
+
+    with :ok <- Bodyguard.permit(Bars, :update_table, current_user, table.bar) do
+      table
+      |> Bars.update_table(input)
+    end
+  end
 end
