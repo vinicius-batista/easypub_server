@@ -2,12 +2,13 @@ defmodule Easypub.OrdersTest do
   use Easypub.DataCase
 
   alias Easypub.Orders
+  alias Easypub.Bars
   alias Easypub.{BarsTest, AccountsTest}
 
   describe "orders" do
     alias Easypub.Orders.Order
 
-    @valid_attrs %{status: "some status"}
+    @valid_attrs %{status: "aberto"}
     @invalid_attrs %{status: nil, table_id: nil, user_id: nil}
 
     def order_fixture(attrs \\ %{}) do
@@ -28,6 +29,15 @@ defmodule Easypub.OrdersTest do
       assert Orders.list_orders(order.user_id) == [order]
     end
 
+    test "list_active_orders/3 returns all active orders from a bar" do
+      order = order_fixture()
+      table = Bars.get_table(order.table_id)
+
+      orders = Orders.list_active_orders(table.bar_id)
+
+      assert orders == [order]
+    end
+
     test "get_order/1 returns the order with given id" do
       order = order_fixture()
       assert Orders.get_order(order.id) == order
@@ -42,7 +52,7 @@ defmodule Easypub.OrdersTest do
         |> Enum.into(%{table_id: table.id, user_id: user.id})
 
       assert {:ok, %Order{} = order} = Orders.create_order(attrs)
-      assert order.status == "some status"
+      assert order.status == "aberto"
     end
 
     test "create_order/1 with invalid data returns error changeset" do

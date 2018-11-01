@@ -7,6 +7,7 @@ defmodule Easypub.Orders do
   alias Easypub.Repo
 
   alias Easypub.Orders.Order
+  alias Easypub.Bars.Table
 
   defdelegate authorize(action, user, params), to: __MODULE__.Policy
 
@@ -36,6 +37,20 @@ defmodule Easypub.Orders do
     from(
       order in Order,
       where: order.user_id == ^user_id and order.inserted_at < ^cursor,
+      order_by: [desc: order.inserted_at],
+      limit: ^limit
+    )
+    |> Repo.all()
+  end
+
+  def list_active_orders(bar_id, limit \\ 20, cursor \\ DateTime.utc_now()) do
+    table_subquery = from(table in Table, where: table.bar_id == ^bar_id, select: table.id)
+
+    from(
+      order in Order,
+      join: table in subquery(table_subquery),
+      on: table.id == order.table_id,
+      where: order.inserted_at < ^cursor and order.status == "aberto",
       order_by: [desc: order.inserted_at],
       limit: ^limit
     )

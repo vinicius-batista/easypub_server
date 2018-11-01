@@ -92,6 +92,14 @@ defmodule EasypubWeb.Schema.OrdersTypes do
       resolve(&OrdersResolvers.get_orders/3)
     end
 
+    field :bar_actives_orders, list_of(:order) do
+      arg(:bar_id, :string)
+      arg(:limit, :integer, default_value: 20)
+      arg(:cursor, :string, default_value: DateTime.utc_now())
+      middleware(Authentication)
+      resolve(&OrdersResolvers.get_bar_actives_orders/3)
+    end
+
     field :order, :order do
       arg(:id, :string)
       middleware(Authentication)
