@@ -7,7 +7,7 @@ defmodule EasypubWeb.Schema.BarsTypes do
 
   alias EasypubWeb.Resolvers.BarsResolvers
   alias EasypubWeb.Middlewares.{Authentication, HandleErrors}
-  alias Easypub.Bars.{MenuCategory, Bar}
+  alias Easypub.Bars.{MenuCategory, Bar, Table}
 
   @desc "Bars object"
   object :bar do
@@ -19,6 +19,7 @@ defmodule EasypubWeb.Schema.BarsTypes do
     field(:inserted_at, :string)
     field(:updated_at, :string)
     field(:menu_categories, list_of(:menu_category), resolve: dataloader(MenuCategory))
+    field(:tables, list_of(:table), resolve: dataloader(Table))
   end
 
   object :table do
