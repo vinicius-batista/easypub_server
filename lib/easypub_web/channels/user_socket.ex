@@ -23,10 +23,9 @@ defmodule EasypubWeb.UserSocket do
   # See `Phoenix.Token` documentation for examples in
   # performing token verification on connect.
   def connect(params, socket) do
-    %{"Authorization" => authorization} = params
-
     context =
-      authorization
+      params
+      |> Map.get("Authorization")
       |> authorize()
       |> BuildLoader.build()
 
