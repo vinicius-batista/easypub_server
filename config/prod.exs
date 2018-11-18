@@ -67,13 +67,13 @@ config :easypub, EasypubWeb.Endpoint,
   url: [host: "easypub.gigalixirapp.com", port: 80]
 
 config :easypub, Easypub.Repo,
-  adapter: Ecto.Adapters.Postgres,
   username: "${DATABASE_USER}",
   password: "${DATABASE_PASS}",
   hostname: "${DATABASE_HOST}",
   database: "${DATABASE}",
   ssl: true,
-  pool_size: 10
+  pool_size: 10,
+  migration_timestamps: [type: :naive_datetime_usec]
 
 # Configure Guardian
 config :easypub, Easypub.Guardian,

@@ -38,12 +38,12 @@ config :phoenix, :stacktrace_depth, 20
 
 # Configure your database
 config :easypub, Easypub.Repo,
-  adapter: Ecto.Adapters.Postgres,
   username: "postgres",
   password: "",
   database: "easypub_dev",
   hostname: "db",
-  pool_size: 10
+  pool_size: 10,
+  migration_timestamps: [type: :naive_datetime_usec]
 
 # Configure Guardian
 config :easypub, Easypub.Guardian,

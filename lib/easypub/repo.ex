@@ -1,5 +1,5 @@
 defmodule Easypub.Repo do
-  use Ecto.Repo, otp_app: :easypub
+  use Ecto.Repo, otp_app: :easypub, adapter: Ecto.Adapters.Postgres
 
   @doc """
   Dynamically loads the repository url from the
