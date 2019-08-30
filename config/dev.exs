@@ -8,6 +8,12 @@ use Mix.Config
 # with brunch.io to recompile .js and .css sources.
 config :easypub, EasypubWeb.Endpoint,
   http: [port: 4000],
+  https: [
+    port: 4443,
+    otp_app: :easypub,
+    keyfile: "priv/cert/selfsigned_key.pem",
+    certfile: "priv/cert/selfsigned.pem"
+  ],
   debug_errors: true,
   code_reloader: true,
   check_origin: false,
