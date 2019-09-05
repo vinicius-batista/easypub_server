@@ -13,6 +13,7 @@ defmodule EasypubWeb.Schema do
   import_types(BarsTypes)
   import_types(MenusTypes)
   import_types(OrdersTypes)
+  import_types(Absinthe.Plug.Types)
 
   query do
     import_fields(:accounts_queries)

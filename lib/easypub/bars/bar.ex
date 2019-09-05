@@ -6,12 +6,14 @@ defmodule Easypub.Bars.Bar do
   import Ecto.Changeset
   alias Easypub.Accounts.User
   alias Easypub.Bars.{MenuCategory, Table}
+  alias Easypub.Images
 
   schema "bars" do
     field(:address, :string)
     field(:avatar, :string)
     field(:name, :string)
     field(:status, :string, default: "fechado")
+    field(:avatar_file, Images.UploadType, virtual: true)
 
     timestamps()
     belongs_to(:user, User, foreign_key: :user_id)
@@ -20,12 +22,20 @@ defmodule Easypub.Bars.Bar do
   end
 
   @required_fields ~w(address name)a
-  @all_fields ~w(status avatar user_id)a ++ @required_fields
+  @all_fields ~w(status avatar user_id avatar_file)a ++ @required_fields
 
   @doc false
   def changeset(bar, attrs) do
     bar
     |> cast(attrs, @all_fields)
     |> validate_required(@required_fields)
+    |> upload_avatar()
   end
+
+  defp upload_avatar(%Ecto.Changeset{valid?: true, changes: %{avatar_file: avatar}} = changeset) do
+    changeset
+    |> put_change(:avatar, Images.upload(avatar, "bars"))
+  end
+
+  defp upload_avatar(changeset), do: changeset
 end

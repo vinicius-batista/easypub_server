@@ -8,8 +8,18 @@ defmodule Easypub.AccountsTest do
 
   describe "users" do
     alias Easypub.Accounts.User
+    alias Easypub.Bars.Bar
 
     @valid_attrs %{
+      email: "contato@easypub.com.br",
+      name: "some name",
+      password: "some password",
+      phone: "12312312313"
+    }
+    @bar_owner_valid_attrs %{
+      bar_address: "some address",
+      bar_avatar_link: "some avatar",
+      bar_name: "some name",
       email: "contato@easypub.com.br",
       name: "some name",
       password: "some password",
@@ -48,6 +58,27 @@ defmodule Easypub.AccountsTest do
 
     test "create_user/1 with invalid data returns error changeset" do
       assert {:error, %Ecto.Changeset{}} = Accounts.create_user(@invalid_attrs)
+    end
+
+    test "create_bar_owner/1 with valid data creates a user and a bar" do
+      assert {:ok, %{user: %User{} = user, bar: %Bar{} = bar}} =
+               %{
+                 bar_avatar: %Plug.Upload{
+                   path: "test/support/test_image.jpg",
+                   content_type: "jpg",
+                   filename: "Some random name"
+                 }
+               }
+               |> Enum.into(@bar_owner_valid_attrs)
+               |> Accounts.create_bar_owner()
+
+      assert user.email == "contato@easypub.com.br"
+      assert user.name == "some name"
+      assert user.role == "bar_owner"
+      assert bar.name == "some name"
+      assert String.valid?(bar.avatar)
+      assert bar.address == "some address"
+      assert bar.user_id == user.id
     end
 
     test "update_user/2 with valid data updates the user" do

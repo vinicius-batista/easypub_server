@@ -37,6 +37,16 @@ defmodule EasypubWeb.Schema.AccountsTypes do
     field(:password, non_null(:string))
   end
 
+  input_object :register_bar_owner_input do
+    field(:name, non_null(:string))
+    field(:email, non_null(:string))
+    field(:phone, non_null(:string))
+    field(:password, non_null(:string))
+    field(:bar_address, non_null(:string))
+    field(:bar_name, non_null(:string))
+    field(:bar_avatar, non_null(:upload))
+  end
+
   @desc "Input object for update_profile"
   input_object :update_profile_input do
     field(:email, :string)
@@ -55,6 +65,12 @@ defmodule EasypubWeb.Schema.AccountsTypes do
     field :register_user, :auth_tokens do
       arg(:input, non_null(:register_user_input))
       resolve(&AccountsResolvers.register_user/3)
+      middleware(HandleErrors)
+    end
+
+    field :register_bar_owner, :auth_tokens do
+      arg(:input, non_null(:register_bar_owner_input))
+      resolve(&AccountsResolvers.register_bar_owner/3)
       middleware(HandleErrors)
     end
 
