@@ -13,6 +13,8 @@ defmodule EasypubWeb.Resolvers.AccountsResolvers do
   def register_bar_owner(_, %{input: input}, _) do
     with {:ok, %{user: user}} <- Accounts.create_bar_owner(input) do
       Auth.generate_tokens(user)
+    else
+      {:error, _model, error, _} -> {:error, error}
     end
   end
 
