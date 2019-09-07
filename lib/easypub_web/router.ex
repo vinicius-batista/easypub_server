@@ -3,6 +3,7 @@ defmodule EasypubWeb.Router do
   Module for Router
   """
   use EasypubWeb, :router
+  alias EasypubWeb.DownloadController
 
   pipeline :graphql do
     plug(:accepts, ["json"])
@@ -25,5 +26,9 @@ defmodule EasypubWeb.Router do
       analyze_complexity: true,
       max_complexity: 250
     )
+  end
+
+  scope "/download" do
+    get("/:folder/:file", DownloadController, :show)
   end
 end
