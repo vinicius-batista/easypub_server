@@ -3,8 +3,10 @@ defmodule EasypubWeb.Schema.AccountsTypes do
   Graphql schema related to Accounts
   """
   use Absinthe.Schema.Notation
+  import Absinthe.Resolution.Helpers, only: [dataloader: 1]
   alias EasypubWeb.Resolvers.AccountsResolvers
   alias EasypubWeb.Middlewares.{Authentication, HandleErrors}
+  alias Easypub.Bars.Bar
 
   @desc "User object"
   object :user do
@@ -14,6 +16,7 @@ defmodule EasypubWeb.Schema.AccountsTypes do
     field(:phone, :string)
     field(:inserted_at, :string)
     field(:updated_at, :string)
+    field(:bar, :bar, resolve: dataloader(Bar))
   end
 
   @desc "AuthTokens object"
