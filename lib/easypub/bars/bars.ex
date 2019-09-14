@@ -124,11 +124,19 @@ defmodule Easypub.Bars do
     |> Repo.insert()
   end
 
-  def get_table(id), do: Repo.get(Table, id, preload: :bar)
+  def get_table(id) do
+    Table
+    |> Repo.get(id)
+    |> Repo.preload(:bar)
+  end
 
   def update_table(%Table{} = table, attrs) do
     table
     |> Table.changeset(attrs)
     |> Repo.update()
+  end
+
+  def delete_table(%Table{} = table) do
+    Repo.delete(table)
   end
 end

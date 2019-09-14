@@ -87,6 +87,13 @@ defmodule EasypubWeb.Schema.BarsTypes do
       resolve(&BarsResolvers.update_table/3)
       middleware(HandleErrors)
     end
+
+    field :delete_table, :table do
+      arg(:id, non_null(:string))
+      middleware(Authentication)
+      resolve(&BarsResolvers.delete_table/3)
+      middleware(HandleErrors)
+    end
   end
 
   object :bars_queries do

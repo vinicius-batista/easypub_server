@@ -57,4 +57,13 @@ defmodule EasypubWeb.Resolvers.BarsResolvers do
       |> Bars.update_table(input)
     end
   end
+
+  def delete_table(_, %{id: id}, %{context: %{current_user: current_user}}) do
+    table = Bars.get_table(id)
+    IO.inspect(table)
+
+    with :ok <- Bodyguard.permit(Bars, :delete_table, current_user, table.bar) do
+      Bars.delete_table(table)
+    end
+  end
 end

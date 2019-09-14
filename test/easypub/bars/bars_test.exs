@@ -315,5 +315,11 @@ defmodule Easypub.BarsTest do
       assert {:error, %Ecto.Changeset{}} = Bars.update_table(table, @invalid_attrs)
       assert table == Repo.get!(Table, table.id)
     end
+
+    test "delete_table/1 deletes the table" do
+      table = table_fixture()
+      assert {:ok, %Table{}} = Bars.delete_table(table)
+      assert nil == Repo.get(Table, table.id)
+    end
   end
 end

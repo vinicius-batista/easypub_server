@@ -34,6 +34,9 @@ defmodule Easypub.Bars.Policy do
   def authorize(:update_table, %User{role: "bar_owner", id: user_id}, %Bar{user_id: user_id}),
     do: true
 
+  def authorize(:delete_table, %User{role: "bar_owner", id: user_id}, %Bar{user_id: user_id}),
+    do: true
+
   # Catch-all: deny everything else
   def authorize(_, _, _), do: false
 end
