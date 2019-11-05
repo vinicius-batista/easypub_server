@@ -14,7 +14,7 @@ alias Easypub.Repo
 alias Easypub.Accounts.User
 
 attrs = %{
-  email: "contato@easypub.com.br",
+  email: "viniciusbfs2012@gmail.com",
   password: "Easypub123",
   name: "admin-easypub",
   phone: "1211111111",
