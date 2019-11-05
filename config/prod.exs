@@ -72,7 +72,7 @@ config :easypub, Easypub.Repo,
   hostname: "${DATABASE_HOST}",
   database: "${DATABASE}",
   ssl: true,
-  pool_size: 1,
+  pool_size: 2,
   migration_timestamps: [type: :naive_datetime_usec]
 
 # Configure Guardian
