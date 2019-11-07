@@ -20,13 +20,18 @@ defmodule Easypub.Images do
 
   @spec download(String.t()) :: :binary.t()
   def download(path) do
-    ("uploads" <> path)
+    (Application.app_dir(:easypub, "uploads") <> path)
     |> File.read()
   end
 
   @spec create_dir(String.t()) :: File.mkdir()
   def create_dir(dirname) do
-    path = "uploads/#{dirname}"
+    case File.dir?(Application.app_dir(:easypub, "uploads")) do
+      true -> :ok
+      _ -> File.mkdir(Application.app_dir(:easypub, "uploads"))
+    end
+
+    path = Application.app_dir(:easypub, "uploads/#{dirname}")
 
     case File.dir?(path) do
       true -> :ok
