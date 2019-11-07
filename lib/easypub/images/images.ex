@@ -11,7 +11,7 @@ defmodule Easypub.Images do
       path = "/#{dirname}/#{filename}.jpg"
 
       :ok =
-        ("uploads" <> path)
+        ("priv/uploads" <> path)
         |> File.write(image)
 
       path
@@ -20,18 +20,13 @@ defmodule Easypub.Images do
 
   @spec download(String.t()) :: :binary.t()
   def download(path) do
-    (Application.app_dir(:easypub, "uploads") <> path)
+    (Application.app_dir(:easypub, "priv/uploads") <> path)
     |> File.read()
   end
 
   @spec create_dir(String.t()) :: File.mkdir()
   def create_dir(dirname) do
-    case File.dir?(Application.app_dir(:easypub, "uploads")) do
-      true -> :ok
-      _ -> File.mkdir(Application.app_dir(:easypub, "uploads"))
-    end
-
-    path = Application.app_dir(:easypub, "uploads/#{dirname}")
+    path = Application.app_dir(:easypub, "priv/uploads/#{dirname}")
 
     case File.dir?(path) do
       true -> :ok
