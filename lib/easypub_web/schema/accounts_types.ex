@@ -47,7 +47,7 @@ defmodule EasypubWeb.Schema.AccountsTypes do
     field(:password, non_null(:string))
     field(:bar_address, non_null(:string))
     field(:bar_name, non_null(:string))
-    field(:bar_avatar, non_null(:upload))
+    field(:bar_avatar, non_null(:string))
   end
 
   @desc "Input object for update_profile"

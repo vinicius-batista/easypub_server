@@ -29,7 +29,6 @@ defmodule Easypub.Bars.Bar do
     bar
     |> cast(attrs, @all_fields)
     |> validate_required(@required_fields)
-    |> upload_avatar()
   end
 
   defp upload_avatar(%Ecto.Changeset{valid?: true, changes: %{avatar_file: avatar}} = changeset) do

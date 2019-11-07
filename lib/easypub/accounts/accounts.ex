@@ -25,7 +25,7 @@ defmodule Easypub.Accounts do
     bar = %{
       name: attrs.bar_name,
       address: attrs.bar_address,
-      avatar_file: attrs.bar_avatar
+      avatar: attrs.bar_avatar
     }
 
     Ecto.Multi.new()
